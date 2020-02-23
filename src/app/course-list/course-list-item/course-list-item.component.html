@@ -1,0 +1,19 @@
+<a href="#" class="course list-group-item list-group-item-action flex-column align-items-start mb-3">
+    <div class="row">
+      <div class="col-10">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 title">{{ courseListItem.title }}</h5>
+          <div class="">
+            <small class="duraction m-2"><fa-icon [icon]="faClock"></fa-icon> {{ courseListItem.toTime }} </small>
+            <small class="date"><fa-icon [icon]="faCalendar"></fa-icon> {{ courseListItem.creationDate }}  </small>
+          </div>
+        </div>
+        <p class="mb-1 description">{{ courseListItem.description }}</p>
+      </div>
+      <div class="col-2 d-inline-flex flex-row p-1 align-items-end justify-content-between">
+        <button type="button" class="btn btn-primary btn-sm" (click)="editCourse()"><fa-icon [icon]="faPen"></fa-icon> Edit</button>
+        <button type="button" class="btn btn-primary btn-sm " (click)="deleteCourse()"><fa-icon [icon]="faTrash"></fa-icon> Delete</button>
+      </div>
+    </div>
+    <small class="author"> Author: {{ courseListItem.author }}  </small>
+</a>
