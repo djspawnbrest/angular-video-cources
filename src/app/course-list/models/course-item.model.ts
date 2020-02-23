@@ -4,6 +4,7 @@ export interface CourseItemInterface {
     title: string;
     author: string;
     creationDate: string;
-    duraction: Number;
+    duration: Number;
     description: string;
+    toTime: string;
 }

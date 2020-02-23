@@ -6,18 +6,18 @@ export class CourseItem implements CourseItemInterface {
     title: string;
     author: string;
     creationDate: string;
-    duraction: Number;
+    duration: Number;
     description: string;
     toTime: string;
 
-    constructor(id: number, title: string, author: string, description: string, duraction?: Number, creationDate?: string) {
+    constructor(id: number, title: string, author: string, description: string, duration?: Number, creationDate?: string) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
-        this.duraction = duraction;
+        this.duration = duration;
         this.creationDate = creationDate;
-        this.toTime = this.timeConvert(duraction);
+        this.toTime = this.timeConvert(duration);
     }
 
     timeConvert(time) {
