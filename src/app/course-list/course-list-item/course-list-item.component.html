@@ -1,11 +1,15 @@
-<div class="course list-group-item list-group-item-action flex-column align-items-start mb-3">
+<div [appCreationDate]="courseListItem" [ngClass]="{rated: courseListItem.topRated}" class="course list-group-item list-group-item-action flex-column align-items-start mb-3">
     <div class="row">
       <div class="col-10">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 title">{{ courseListItem.title }}</h5>
+          <h5 class="mb-1 title">
+            {{ courseListItem.title | uppercase }}
+            <fa-icon *ngIf="courseListItem.topRated" [icon]="faStar"></fa-icon>
+            <fa-icon [appHourglass]="courseListItem" [icon]="faHourglass"></fa-icon>
+          </h5>
           <div class="">
-            <small class="duration m-2"><fa-icon [icon]="faClock"></fa-icon> {{ courseListItem.toTime }} </small>
-            <small class="date"><fa-icon [icon]="faCalendar"></fa-icon> {{ courseListItem.creationDate }}  </small>
+            <small class="duration m-2"><fa-icon [icon]="faClock"></fa-icon> {{ courseListItem.duration | duration }} </small>
+            <small class="date"><fa-icon [icon]="faCalendar"></fa-icon> {{ courseListItem.creationDate | date: "dd MMM yyyy" }}  </small>
           </div>
         </div>
         <p class="mb-1 description">{{ courseListItem.description }}</p>

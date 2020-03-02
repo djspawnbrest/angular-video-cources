@@ -3,8 +3,8 @@ export interface CourseItemInterface {
     id: number;
     title: string;
     author: string;
-    creationDate: string;
-    duration: Number;
+    creationDate: Date;
+    duration: number;
     description: string;
-    toTime: string;
+    topRated: boolean;
 }

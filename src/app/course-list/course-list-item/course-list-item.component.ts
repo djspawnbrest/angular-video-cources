@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CourseItem } from '../models/course-item';
-import { faPen, faTrash, faClock, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash, faClock, faCalendar, faStar, faHourglass } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-course-list-item',
@@ -11,7 +11,9 @@ export class CourseListItemComponent implements OnInit {
   faPen = faPen;
   faTrash = faTrash;
   faClock = faClock;
-  faCalendar =faCalendar;
+  faCalendar = faCalendar;
+  faStar = faStar;
+  faHourglass = faHourglass;
   @Input() courseListItem: CourseItem;
   @Output() delete = new EventEmitter<number>();
   @Output() edit = new EventEmitter<number>();
