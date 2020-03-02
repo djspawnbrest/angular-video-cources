@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -10,11 +10,13 @@ export class SearchComponent implements OnInit {
   @HostBinding('class') class = 'input-group mb-3';
   faSearch = faSearch;
   @Input() findValue = '';
+  @Output() find = new EventEmitter<string>();
 
   constructor() { }
 
   findCourse() {
     console.log('Find: ' + this.findValue);
+    this.find.emit(this.findValue);
   }
 
   ngOnInit() {
