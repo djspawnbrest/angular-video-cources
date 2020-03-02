@@ -3,7 +3,7 @@ import {CourseItemInterface} from './course-item.model';
 // TODO: generate id and set creationDate in condtructor
 export class CourseItem implements CourseItemInterface {
     creationDate: string;
-    duration: Number;
+    duration: number;
     toTime: string;
 
     constructor(
@@ -11,19 +11,24 @@ export class CourseItem implements CourseItemInterface {
         public title: string,
         public author: string,
         public description: string,
-        duration?: Number,
+        duration?: number,
         creationDate?: string,
-        toTime?: string) {
+        toTime?: string
+        ) {
         this.creationDate = creationDate;
         this.toTime = this.timeConvert(duration);
     }
 
-    timeConvert(time) {
-        let num = time,
-        hours = (num / 60),
-        rhours = Math.floor(hours),
-        minutes = (hours - rhours) * 60,
-        rminutes = Math.round(minutes);
-        return rhours + " h " + rminutes + " min";
+    timeConvert(time: number) {
+        const num = time;
+        const hours = (num / 60);
+        const rhours = Math.floor(hours);
+        const minutes = (hours - rhours) * 60;
+        const rminutes = Math.round(minutes);
+        if (rhours <= 0) {
+            return `${rminutes} min`;
+        } else {
+            return `${rhours} h ${rminutes} min`;
+        }
     }
 }
