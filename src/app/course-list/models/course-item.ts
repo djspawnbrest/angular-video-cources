@@ -2,7 +2,7 @@ import {CourseItemInterface} from './course-item.model';
 
 // TODO: generate id and set creationDate in condtructor
 export class CourseItem implements CourseItemInterface {
-    creationDate: Date;
+    creationDate: Вate;
 
     constructor(
         public id: number,
