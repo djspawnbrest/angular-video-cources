@@ -10,7 +10,11 @@ import { CourseItem } from '../models/course-item';
 export class CourseListComponent implements OnInit {
   faPlus = faPlus;
   courseListsItems: CourseItem [];
-  fakeDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'; 
+  fakeDescription = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+   aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+    mollit anim id est laborum.`;
 
   constructor() {
     this.courseListsItems = [];
@@ -29,13 +33,11 @@ export class CourseListComponent implements OnInit {
   }
 
   loadMoreCourses() {
-    //this.courseListsItems.push( new CourseItem(4, 'Video Course 4', 'Aliaxandr Sitnikau', this.fakeDescription, 125, '01.19.2020') );
     console.log('Load more courses');
   }
 
   trackByFn(index, item) {
-    //console.log('item', item.id);
-    return index; // or item.id
+    return item.id;
   }
 
   ngOnInit() {
