@@ -20,7 +20,6 @@ import { HourglassDirective } from '../directives/hourglass.directive';
     SearchComponent,
     CreationDateDirective,
     DurationPipe,
-    FindPipe,
     HourglassDirective
   ],
   imports: [
