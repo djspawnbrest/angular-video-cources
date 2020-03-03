@@ -15,8 +15,6 @@ export class CreationDateDirective {
     const currTime = currDate.getTime();
     const freshTime = new Date(currDate.getFullYear(), currDate.getMonth(), (currDate.getDate() - 14) ).getTime();
 
-    console.log('date in string', courseItem.creationDate);
-
     const courseTime = Number(courseItem.creationDate);
 
     if (courseTime <= currTime && courseTime >= freshTime) {
