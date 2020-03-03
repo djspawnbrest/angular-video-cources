@@ -2,7 +2,7 @@ import {ICourseItem} from './course-item.model';
 
 // TODO: generate id and set creationDate in condtructor
 export class CourseItem implements ICourseItem {
-    creationDate: Date;
+    creationDate: string;
 
     constructor(
         public id: number,
@@ -10,7 +10,7 @@ export class CourseItem implements ICourseItem {
         public author: string,
         public description: string,
         public duration: number,
-        creationDate?: Date,
+        creationDate?: string,
         public topRated: boolean = false
         ) {
         this.creationDate = creationDate;

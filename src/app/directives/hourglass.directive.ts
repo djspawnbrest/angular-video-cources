@@ -10,7 +10,6 @@ export class HourglassDirective {
 
   @Input('appHourglass') set appHourglass(courseItem: ICourseItem) {
     const duration = courseItem.duration;
-    console.log('duration', duration);
     if (duration > 90) {
       this.render.setStyle(this.el.nativeElement, 'visibility', 'visible');
     } else if (duration <= 90) {

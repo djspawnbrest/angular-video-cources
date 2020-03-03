@@ -3,7 +3,7 @@ import { Component, DebugElement } from '../../../node_modules/@angular/core';
 import { CourseItem } from '../course-list/models/course-item';
 import { TestBed, ComponentFixture } from '../../../node_modules/@angular/core/testing';
 import { By } from '../../../node_modules/@angular/platform-browser';
-import { CourseItemInterface } from '../course-list/models/course-item.model';
+import { ICourseItem } from '../course-list/models/course-item.model';
 
 @Component({
   template: `<a href="#" [appCreationDate]="courseItems[0]"></a>
@@ -12,14 +12,15 @@ import { CourseItemInterface } from '../course-list/models/course-item.model';
 })
 
 class TestHostComponent {
-  courseItems: CourseItemInterface[];
+  courseItems: ICourseItem[];
 
   constructor() {
     const currDate = new Date();
-    const oldCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() - 15);
-    const futureCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() + 3);
+    const cDate = currDate.getTime().toString();
+    const oldCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() - 15).getTime().toString();
+    const futureCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() + 3).getTime().toString();
     this.courseItems = [
-      new CourseItem(1, 'title', 'Spawn', 'description', 30, currDate),
+      new CourseItem(1, 'title', 'Spawn', 'description', 30, cDate),
       new CourseItem(1, 'title', 'Spawn', 'description', 30, oldCourseDate),
       new CourseItem(1, 'title', 'Spawn', 'description', 30, futureCourseDate)
     ];

@@ -1,7 +1,16 @@
 import { DurationPipe } from './duration.pipe';
+import { TestBed } from '../../../node_modules/@angular/core/testing';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ DurationPipe ]
+    })
+    .compileComponents();
+  });
+
   it('create an instance', () => {
     pipe = new DurationPipe();
     expect(pipe).toBeTruthy();

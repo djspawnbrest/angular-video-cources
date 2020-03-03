@@ -3,7 +3,7 @@ export interface ICourseItem {
     id: number;
     title: string;
     author: string;
-    creationDate: Date;
+    creationDate: string;
     duration: number;
     description: string;
     topRated: boolean;

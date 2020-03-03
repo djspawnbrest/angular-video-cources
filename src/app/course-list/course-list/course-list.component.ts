@@ -49,10 +49,18 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit() {
     this.courseListsItems = this.allCourseListsItems = [
-      new CourseItem(1, 'Video Course 1', 'Vasia Pupkin', this.fakeDescription, 90, new Date(2019, 8, 29) ),
-      new CourseItem(2, 'Video Course 2', 'Aliaksandr Sitnikau', this.fakeDescription, 91, new Date(2020, 1, 20) ),
-      new CourseItem(3, 'Video Course 3', 'Aliaksandr Sitnikau', this.fakeDescription, 450, new Date(2020, 2, 20), true )
+      new CourseItem(1, 'Video Course 1', 'Vasia Pupkin', this.fakeDescription, 90, this.getDateToString('29.07.2019') ),
+      new CourseItem(2, 'Video Course 2', 'Aliaksandr Sitnikau', this.fakeDescription, 91, this.getDateToString('20.02.2020') ),
+      new CourseItem(3, 'Video Course 3', 'Aliaksandr Sitnikau', this.fakeDescription, 450, this.getDateToString('20.03.2020'), true )
     ];
+  }
+
+  getDateToString(stringDate: string) {
+    const day = Number(stringDate.split('.')[0]);
+    const month = Number(stringDate.split('.')[1]) - 1;
+    const year = Number(stringDate.split('.')[2]);
+    const timestamp = new Date(year, month, day).getTime().toString();
+    return timestamp;
   }
 
 }

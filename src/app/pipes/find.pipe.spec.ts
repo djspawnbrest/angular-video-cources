@@ -1,14 +1,22 @@
 import { FindPipe } from './find.pipe';
 import { CourseItem } from '../course-list/models/course-item';
+import { TestBed } from '../../../node_modules/@angular/core/testing';
 
 describe('FindPipe', () => {
   let pipe: FindPipe;
-  const firstCourseListItem = new CourseItem(1, 'abcd', 'Aliaksandr', 'efg', 12, new Date(2020, 1, 1));
-  const secondCourseListItem =  new CourseItem(2, 'ihl', 'Sitnikau', 'yzd', 12, new Date(2020, 1, 1));
+  const firstCourseListItem = new CourseItem(1, 'abcd', 'Aliaksandr', 'efg', 12, "1577873421000");
+  const secondCourseListItem =  new CourseItem(2, 'ihl', 'Sitnikau', 'yzd', 12, "1577873421000");
 
   const courseListItems = [
     firstCourseListItem, secondCourseListItem
   ];
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ FindPipe, CourseItem ]
+    })
+    .compileComponents();
+  });
 
   it('create an instance', () => {
     pipe = new FindPipe();
@@ -43,4 +51,5 @@ describe('FindPipe', () => {
     const actual = pipe.transform(courseListItems, 'zzzzz');
     expect(actual).toEqual([  ]);
   });
-});
+});import { from } from 'rxjs';
+
