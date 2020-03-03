@@ -4,17 +4,25 @@
          VIDEO COURSE
     </a>
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
+        <ul *ngIf="!isAuthenticated()" class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="./">
-                    <fa-icon [icon]="faUser"></fa-icon>
-                     User Login
+                <a id="login" class="nav-link" [routerLink]="['auth/login']">
+                    <fa-icon [icon]="faUser" class="m-1"></fa-icon>
+                     Login
+                </a>
+            </li>
+        </ul>
+        <ul *ngIf="isAuthenticated()" class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="user-login" class="nav-link" href="./">
+                    <fa-icon [icon]="faUser" class="m-1"></fa-icon>
+                     {{ getUserInfo() }}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./">
-                    <fa-icon [icon]="faSignOutAlt"></fa-icon>
-                     Log off
+                <a id="logOff" class="nav-link" (click)="logOff()">
+                    <fa-icon [icon]="faSignOutAlt" class="m-1"></fa-icon>
+                    Log off
                 </a>
             </li>
         </ul>

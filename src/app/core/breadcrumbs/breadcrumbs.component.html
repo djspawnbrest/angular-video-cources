@@ -1,3 +1,7 @@
-<ol class="breadcrumb font-weight-bold bg-white border-0">
-    <li class="breadcrumb-item active">Courses</li>
+<ol *ngIf="isAuthenticated()" class="breadcrumb font-weight-bold bg-white border-0">
+    <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item">
+        <a [routerLink]="[breadcrumb.url]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        {{ breadcrumb.label }}
+        </a>
+    </li>
 </ol>
