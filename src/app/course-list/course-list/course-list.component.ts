@@ -2,40 +2,52 @@ import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { FindPipe } from '../../pipes/find.pipe';
+import { CoursesDataService } from '../../services/courses-data.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../core/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.css']
+  styleUrls: ['./course-list.component.css'],
+  providers: [ CoursesDataService ],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class CourseListComponent implements OnInit {
   readonly faPlus = faPlus;
   courseListsItems: CourseItem [];
-  allCourseListsItems: CourseItem[];
-  fakeDescription = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-   aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-    mollit anim id est laborum.`;
 
-  constructor(private findPipe: FindPipe) {
+  constructor(
+    private findPipe: FindPipe,
+    private coursesDataService: CoursesDataService,
+    public dialog: MatDialog
+    ) {
     this.courseListsItems = [];
-    this.allCourseListsItems = [];
   }
 
   onFind(findValue: string) {
-    this.courseListsItems = this.findPipe.transform(this.allCourseListsItems, findValue);
+    this.courseListsItems = this.findPipe.transform(this.coursesDataService.getAll(), findValue);
   }
 
   onAddCourse() {
     console.log('Add new course event');
+    this.coursesDataService.add(new CourseItem(4, 'Video Course 4', 'Ivan Ivanov', 'description', 94, '1583241848000' ));
   }
 
   onDelete(id: number) {
-    console.log('Delete course:' + id);
+    const dialogConfig = new MatDialogConfig();
+    const item = this.coursesDataService.get(id);
+    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete ${item.title}?`};
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.coursesDataService.remove(id);
+        this.courseListsItems = this.coursesDataService.getAll();
+      }
+    });
   }
 
-  onEdit(id: number) {
+  onUpdate(id: number) {
     console.log('Edit course:' + id);
   }
 
@@ -48,19 +60,6 @@ export class CourseListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.courseListsItems = this.allCourseListsItems = [
-      new CourseItem(1, 'Video Course 1', 'Vasia Pupkin', this.fakeDescription, 90, this.getDateToString('29.07.2019') ),
-      new CourseItem(2, 'Video Course 2', 'Aliaksandr Sitnikau', this.fakeDescription, 91, this.getDateToString('20.02.2020') ),
-      new CourseItem(3, 'Video Course 3', 'Aliaksandr Sitnikau', this.fakeDescription, 450, this.getDateToString('20.03.2020'), true )
-    ];
+    this.courseListsItems = this.coursesDataService.getAll();
   }
-
-  getDateToString(stringDate: string) {
-    const day = Number(stringDate.split('.')[0]);
-    const month = Number(stringDate.split('.')[1]) - 1;
-    const year = Number(stringDate.split('.')[2]);
-    const timestamp = new Date(year, month, day).getTime().toString();
-    return timestamp;
-  }
-
 }

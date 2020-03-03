@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,19 +10,24 @@ import { FooterComponent } from './core/footer/footer.component';
 import { BreadcrumbsComponent } from './core/breadcrumbs/breadcrumbs.component';
 
 import { CourseListModule } from './course-list/course-list.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDialogComponent } from './core/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
+    MatDialogModule,
     AppRoutingModule,
     FontAwesomeModule,
     CourseListModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

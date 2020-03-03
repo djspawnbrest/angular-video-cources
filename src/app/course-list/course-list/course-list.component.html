@@ -5,7 +5,7 @@
     </div>
     <div class="list-group">
         <div class="message alert alert-info text-center" *ngIf="courseListsItems.length === 0">NO DATA, FEEL FREE TO ADD NEW COURSE</div>
-        <app-course-list-item *ngFor="let item of courseListsItems;trackBy: trackByFn" [courseListItem]="item" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-course-list-item>
+        <app-course-list-item *ngFor="let item of courseListsItems;trackBy: trackByFn" [courseListItem]="item" (delete)="onDelete($event)" (edit)="onUpdate($event)"></app-course-list-item>
     </div>
     <button class="btn btn-link bg-white btn-lg btn-block mb-5" (click)="loadMoreCourses()">LOAD MORE</button>
 </div>

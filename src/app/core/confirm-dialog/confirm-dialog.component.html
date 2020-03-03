@@ -1,0 +1,6 @@
+<h1 class="text-center">{{data.title}}</h1>
+<div>{{data.message}}</div>
+<div class="text-center mt-3">
+  <button class="m-1 btn btn-success" (click)="dialogRef.close(true)">Yes</button>
+  <button class="m-1 btn btn-danger" md-button (click)="dialogRef.close(false)">No</button>
+</div>
