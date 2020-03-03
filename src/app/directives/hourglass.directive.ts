@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer2, ElementRef } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ICourseItem } from '../course-list/models/course-item.model';
 
 @Directive({
@@ -6,14 +6,17 @@ import { ICourseItem } from '../course-list/models/course-item.model';
 })
 export class HourglassDirective {
 
-  constructor(private el: ElementRef, private render: Renderer2) { }
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) { }
 
   @Input('appHourglass') set appHourglass(courseItem: ICourseItem) {
     const duration = courseItem.duration;
     if (duration > 90) {
-      this.render.setStyle(this.el.nativeElement, 'visibility', 'visible');
+      this.viewContainer.createEmbeddedView(this.templateRef);
     } else if (duration <= 90) {
-      this.render.setStyle(this.el.nativeElement, 'visibility', 'hidden');
+      this.viewContainer.clear();
     }
   }
 

@@ -5,7 +5,7 @@
           <h5 class="mb-1 title">
             {{ courseListItem.title | uppercase }}
             <fa-icon *ngIf="courseListItem.topRated" [icon]="faStar"></fa-icon>
-            <fa-icon [appHourglass]="courseListItem" [icon]="faHourglass"></fa-icon>
+            <fa-icon *appHourglass="courseListItem" [icon]="faHourglass"></fa-icon>
           </h5>
           <div class="">
             <small class="duration m-2"><fa-icon [icon]="faClock"></fa-icon> {{ courseListItem.duration | duration }} </small>
