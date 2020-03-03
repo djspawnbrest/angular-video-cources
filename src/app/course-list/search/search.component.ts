@@ -7,8 +7,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  readonly faSearch = faSearch;
   @HostBinding('class') class = 'input-group mb-3';
-  faSearch = faSearch;
   @Input() findValue = '';
   @Output() find = new EventEmitter<string>();
 

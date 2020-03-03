@@ -9,7 +9,7 @@ import { FindPipe } from '../../pipes/find.pipe';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
-  faPlus = faPlus;
+  readonly faPlus = faPlus;
   courseListsItems: CourseItem [];
   allCourseListsItems: CourseItem[];
   fakeDescription = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt

@@ -8,12 +8,12 @@ import { faPen, faTrash, faClock, faCalendar, faStar, faHourglass } from '@forta
   styleUrls: ['./course-list-item.component.css']
 })
 export class CourseListItemComponent implements OnInit {
-  faPen = faPen;
-  faTrash = faTrash;
-  faClock = faClock;
-  faCalendar = faCalendar;
-  faStar = faStar;
-  faHourglass = faHourglass;
+  readonly faPen = faPen;
+  readonly faTrash = faTrash;
+  readonly faClock = faClock;
+  readonly faCalendar = faCalendar;
+  readonly faStar = faStar;
+  readonly faHourglass = faHourglass;
   @Input() courseListItem: CourseItem;
   @Output() delete = new EventEmitter<number>();
   @Output() edit = new EventEmitter<number>();
