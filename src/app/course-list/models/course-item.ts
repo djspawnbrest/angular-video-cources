@@ -1,7 +1,7 @@
-import {CourseItemInterface} from './course-item.model';
+import {ICourseItem} from './course-item.model';
 
 // TODO: generate id and set creationDate in condtructor
-export class CourseItem implements CourseItemInterface {
+export class CourseItem implements ICourseItem {
     creationDate: Date;
 
     constructor(

@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CourseItemInterface } from '../course-list/models/course-item.model';
+import { ICourseItem } from '../course-list/models/course-item.model';
 
 @Pipe({
   name: 'find'
 })
 export class FindPipe implements PipeTransform {
 
-  transform(courses: CourseItemInterface[], findValue: string): CourseItemInterface[] {
+  transform(courses: ICourseItem[], findValue: string): ICourseItem[] {
     return courses.filter( (course) => {
       if (
         course.author.toLowerCase().indexOf(findValue.toLowerCase()) > -1 ||

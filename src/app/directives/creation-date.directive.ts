@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, Renderer2 } from '@angular/core';
-import { CourseItemInterface } from '../course-list/models/course-item.model';
+import { ICourseItem } from '../course-list/models/course-item.model';
 
 @Directive({
   selector: '[appCreationDate]'
@@ -8,7 +8,7 @@ export class CreationDateDirective {
 
   constructor(private el: ElementRef, private render: Renderer2) { }
 
-  @Input('appCreationDate') set appCreationDate(courseItem: CourseItemInterface) {
+  @Input('appCreationDate') set appCreationDate(courseItem: ICourseItem) {
     let color = null;
 
     const currDate = new Date();
