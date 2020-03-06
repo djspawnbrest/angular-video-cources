@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
-import { FindPipe } from '../../pipes/find.pipe';
-import { CoursesDataService } from '../../services/courses-data.service';
+import { FindPipe } from '../../shared/pipes/find.pipe';
+import { CoursesDataService } from './../services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../core/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css'],
-  providers: [ CoursesDataService ],
   entryComponents: [ConfirmDialogComponent]
 })
 export class CourseListComponent implements OnInit {

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ICourseItem } from '../course-list/models/course-item.model';
-import { CourseItem } from '../course-list/models/course-item';
+import { ICourseItem } from './../models/course-item.model';
+import { CourseItem } from './../models/course-item';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CoursesDataService {
   private courseListsItems: ICourseItem[] = [];
   private fakeDescription = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -21,7 +19,7 @@ export class CoursesDataService {
     ];
    }
 
-  getDateToString(stringDate: string) {
+  private getDateToString(stringDate: string) {
     const day = Number(stringDate.split('.')[0]);
     const month = Number(stringDate.split('.')[1]) - 1;
     const year = Number(stringDate.split('.')[2]);
@@ -47,19 +45,10 @@ export class CoursesDataService {
     return true;
   }
 
-  update(course: ICourseItem): boolean {
-    for (const c of this.courseListsItems) {
-      if (c.id === course.id) {
-        c.author = course.author;
-        c.creationDate = course.creationDate;
-        c.description = course.description;
-        c.duration = course.duration;
-        c.title = course.title;
-        c.topRated = course.topRated;
-        return true;
-      }
-    }
-    return false;
+  update(course: ICourseItem): ICourseItem {
+    return this.courseListsItems.find( (c) => {
+      return c === course;
+    });
   }
 
   remove(id: number): boolean {

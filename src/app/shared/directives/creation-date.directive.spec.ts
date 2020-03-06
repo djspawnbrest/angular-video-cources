@@ -1,9 +1,10 @@
+import { Component, DebugElement } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
 import { CreationDateDirective } from './creation-date.directive';
-import { Component, DebugElement } from '../../../node_modules/@angular/core';
-import { CourseItem } from '../course-list/models/course-item';
-import { TestBed, ComponentFixture } from '../../../node_modules/@angular/core/testing';
-import { By } from '../../../node_modules/@angular/platform-browser';
-import { ICourseItem } from '../course-list/models/course-item.model';
+import { CourseItem } from '../../course-list/models/course-item';
+import { ICourseItem } from '../../course-list/models/course-item.model';
 
 @Component({
   template: `<a href="#" [appCreationDate]="courseItems[0]"></a>

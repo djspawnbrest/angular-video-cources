@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadCrumb } from './breadcrumbs.model';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../auth/services';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -41,7 +41,7 @@ export class BreadcrumbsComponent implements OnInit {
 
       const nextUrl = `${url}${path}/`;
       const breadcrumb = {
-          label: label,
+          label,
           url: nextUrl,
           exact: true
       };

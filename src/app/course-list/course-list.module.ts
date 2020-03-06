@@ -5,14 +5,14 @@ import { CourseListItemComponent } from './course-list-item/course-list-item.com
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CreationDateDirective } from '../directives/creation-date.directive';
-import { DurationPipe } from '../pipes/duration.pipe';
-import { FindPipe } from '../pipes/find.pipe';
-import { HourglassDirective } from '../directives/hourglass.directive';
+import { CreationDateDirective, HourglassDirective } from '../shared/directives';
+import { DurationPipe, FindPipe } from '../shared/pipes';
+import { CoursesDataService } from './services';
 
 @NgModule({
   providers: [
-    FindPipe
+    FindPipe,
+    CoursesDataService
   ],
   declarations: [
     CourseListComponent,
@@ -26,7 +26,6 @@ import { HourglassDirective } from '../directives/hourglass.directive';
     CommonModule,
     FormsModule,
     FontAwesomeModule
-  ],
-  exports: [ CourseListComponent ]
+  ]
 })
 export class CourseListModule { }

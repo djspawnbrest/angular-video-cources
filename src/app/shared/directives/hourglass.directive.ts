@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { ICourseItem } from '../course-list/models/course-item.model';
+import { ICourseItem } from '../../course-list/models/course-item.model';
 
 @Directive({
   selector: '[appHourglass]'
