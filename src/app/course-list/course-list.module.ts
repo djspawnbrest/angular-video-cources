@@ -8,7 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CreationDateDirective, HourglassDirective } from '../shared/directives';
 import { DurationPipe, FindPipe } from '../shared/pipes';
 import { CoursesDataService } from './services';
-import { CreateCourseListItemComponent } from './create-course-list-item/create-course-list-item.component';
+import { AddCourseListItemComponent } from './add-course-list-item/add-course-list-item.component';
 import { RouterModule } from '@angular/router';
 import { AuthorComponent, DurationComponent, DateComponent } from './shared';
 import { EditCourseListItemComponent } from './edit-course-list-item/edit-course-list-item.component';
@@ -25,7 +25,7 @@ import { EditCourseListItemComponent } from './edit-course-list-item/edit-course
     CreationDateDirective,
     DurationPipe,
     HourglassDirective,
-    CreateCourseListItemComponent,
+    AddCourseListItemComponent,
     DateComponent,
     AuthorComponent,
     DurationComponent,

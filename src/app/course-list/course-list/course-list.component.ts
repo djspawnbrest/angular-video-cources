@@ -28,11 +28,6 @@ export class CourseListComponent implements OnInit {
     this.courseListsItems = this.findPipe.transform(this.coursesDataService.getAll(), findValue);
   }
 
-  onAddCourse() {
-    console.log('Add new course event');
-    this.coursesDataService.add(new CourseItem(4, 'Video Course 4', 'Ivan Ivanov', 'description', 94, '1583241848000' ));
-  }
-
   onDelete(id: number) {
     const dialogConfig = new MatDialogConfig();
     const item = this.coursesDataService.get(id);

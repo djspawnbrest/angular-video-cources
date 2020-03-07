@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CourseListComponent } from './course-list/course-list/course-list.component';
 import { LoginComponent } from './auth/login/login.component';
-import { CreateCourseListItemComponent } from './course-list/create-course-list-item/create-course-list-item.component';
+import { AddCourseListItemComponent } from './course-list/add-course-list-item/add-course-list-item.component';
 import { EditCourseListItemComponent } from './course-list/edit-course-list-item/edit-course-list-item.component';
 
 const routes: Routes = [
@@ -25,14 +25,14 @@ const routes: Routes = [
             },
         },
         {
-            path: 'create',
-            component: CreateCourseListItemComponent,
+            path: 'add',
+            component: AddCourseListItemComponent,
             data: {
-                breadcrumb: 'Create'
+                breadcrumb: 'Add'
             }
         },
         {
-            path: ':id',
+            path: 'edit/:id',
             component: EditCourseListItemComponent,
             data: {
                 breadcrumb: 'Edit',

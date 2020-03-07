@@ -15,7 +15,7 @@
         <p class="mb-1 description">{{ courseListItem.description }}</p>
       </div>
       <div class="col-2 d-inline-flex flex-row p-1 align-items-end justify-content-between">
-        <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/courses', courseListItem.id]"><fa-icon [icon]="faPen"></fa-icon> Edit</button>
+        <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/courses/edit', courseListItem.id]"><fa-icon [icon]="faPen"></fa-icon> Edit</button>
         <button type="button" class="btn btn-primary btn-sm " (click)="deleteCourse()"><fa-icon [icon]="faTrash"></fa-icon> Delete</button>
       </div>
     </div>
