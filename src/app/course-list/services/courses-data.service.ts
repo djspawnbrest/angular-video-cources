@@ -13,19 +13,11 @@ export class CoursesDataService {
 
   constructor() {
     this.courseListsItems = [
-      new CourseItem(1, 'Video Course 1', 'Vasia Pupkin', this.fakeDescription, 90, this.getDateToString('29.07.2019') ),
-      new CourseItem(2, 'Video Course 2', 'Aliaksandr Sitnikau', this.fakeDescription, 91, this.getDateToString('20.02.2020') ),
-      new CourseItem(3, 'Video Course 3', 'Aliaksandr Sitnikau', this.fakeDescription, 450, this.getDateToString('20.03.2020'), true )
+      new CourseItem(1, 'Video Course 1', 'Vasia Pupkin', this.fakeDescription, 90, '2019-07-29' ),
+      new CourseItem(2, 'Video Course 2', 'Aliaksandr Sitnikau', this.fakeDescription, 91, '2020-02-20' ),
+      new CourseItem(3, 'Video Course 3', 'Aliaksandr Sitnikau', this.fakeDescription, 450, '2020-03-20', true )
     ];
    }
-
-  private getDateToString(stringDate: string) {
-    const day = Number(stringDate.split('.')[0]);
-    const month = Number(stringDate.split('.')[1]) - 1;
-    const year = Number(stringDate.split('.')[2]);
-    const timestamp = new Date(year, month, day).getTime().toString();
-    return timestamp;
-  }
 
   getAll(): ICourseItem[] {
     return this.courseListsItems;
@@ -37,12 +29,10 @@ export class CoursesDataService {
     });
   }
 
-  add(course: ICourseItem): boolean {
-    if (this.get(course.id)) {
-      return false;
-    }
+  add(course: ICourseItem) {
+    const lastId = Math.max.apply(Math, this.courseListsItems.map( (i) => i.id)) + 1;
+    course.id = lastId;
     this.courseListsItems.push(course);
-    return true;
   }
 
   update(course: ICourseItem): ICourseItem {

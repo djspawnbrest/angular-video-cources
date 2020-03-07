@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.model.username);
     console.log(`User "${this.model.username}" logged in successfully`);
-    this.router.navigate(['/courses']);
+    this.router.navigate(['/courses/list']);
   }
 
 }

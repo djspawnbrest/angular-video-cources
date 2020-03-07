@@ -1,0 +1,13 @@
+<div class="form-row align-items-end">
+    <div class="col col-sm-3">
+        <label for="duration">Duration (min)</label>
+        <input type="number" class="form-control" #duration
+        required
+        (change)="onChange(duration.value)"
+        [(ngModel)]="model.duration" name="duration"
+        #name="ngModel">
+    </div>
+    <div class="col col-sm-2 pb-2 ml-2">
+        {{model.duration | duration}}
+    </div>
+</div>
