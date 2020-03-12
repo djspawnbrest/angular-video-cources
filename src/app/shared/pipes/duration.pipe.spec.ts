@@ -1,5 +1,5 @@
 import { DurationPipe } from './duration.pipe';
-import { TestBed } from '../../../node_modules/@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 describe('DurationPipe', () => {
   let pipe: DurationPipe;

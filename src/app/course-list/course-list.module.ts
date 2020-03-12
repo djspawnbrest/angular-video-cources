@@ -8,6 +8,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CreationDateDirective, HourglassDirective } from '../shared/directives';
 import { DurationPipe, FindPipe } from '../shared/pipes';
 import { CoursesDataService } from './services';
+import { AddCourseListItemComponent } from './add-course-list-item/add-course-list-item.component';
+import { RouterModule } from '@angular/router';
+import { AuthorComponent, DurationComponent, DateComponent } from './shared';
+import { EditCourseListItemComponent } from './edit-course-list-item/edit-course-list-item.component';
 
 @NgModule({
   providers: [
@@ -20,12 +24,18 @@ import { CoursesDataService } from './services';
     SearchComponent,
     CreationDateDirective,
     DurationPipe,
-    HourglassDirective
+    HourglassDirective,
+    AddCourseListItemComponent,
+    DateComponent,
+    AuthorComponent,
+    DurationComponent,
+    EditCourseListItemComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RouterModule
   ]
 })
 export class CourseListModule { }

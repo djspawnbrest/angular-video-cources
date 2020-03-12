@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { FindPipe } from '../../shared/pipes/find.pipe';
@@ -26,11 +26,6 @@ export class CourseListComponent implements OnInit {
 
   onFind(findValue: string) {
     this.courseListsItems = this.findPipe.transform(this.coursesDataService.getAll(), findValue);
-  }
-
-  onAddCourse() {
-    console.log('Add new course event');
-    this.coursesDataService.add(new CourseItem(4, 'Video Course 4', 'Ivan Ivanov', 'description', 94, '1583241848000' ));
   }
 
   onDelete(id: number) {
