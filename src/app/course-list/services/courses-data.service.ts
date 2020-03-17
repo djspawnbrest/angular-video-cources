@@ -30,7 +30,7 @@ export class CoursesDataService {
   }
 
   add(course: ICourseItem) {
-    const lastId = Math.max.apply(Math, this.courseListsItems.map( (i) => i.id)) + 1;
+    const lastId = Math.max.apply(Math, this.courseListsItems.map((i) => i.id)) + 1;
     course.id = lastId;
     this.courseListsItems.push(course);
   }

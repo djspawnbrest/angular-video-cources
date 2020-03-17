@@ -41,10 +41,6 @@ export class CourseListComponent implements OnInit {
     });
   }
 
-  onUpdate(id: number) {
-    console.log('Edit course:' + id);
-  }
-
   loadMoreCourses() {
     console.log('Load more courses');
   }

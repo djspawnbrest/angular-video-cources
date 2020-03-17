@@ -10,7 +10,7 @@ import { DurationPipe, FindPipe } from '../shared/pipes';
 import { CoursesDataService } from './services';
 import { AddCourseListItemComponent } from './add-course-list-item/add-course-list-item.component';
 import { RouterModule } from '@angular/router';
-import { AuthorComponent, DurationComponent, DateComponent } from './shared';
+import { AddEditFormComponent, AuthorComponent, DurationComponent, DateComponent } from './shared';
 import { EditCourseListItemComponent } from './edit-course-list-item/edit-course-list-item.component';
 
 @NgModule({
@@ -26,6 +26,7 @@ import { EditCourseListItemComponent } from './edit-course-list-item/edit-course
     DurationPipe,
     HourglassDirective,
     AddCourseListItemComponent,
+    AddEditFormComponent,
     DateComponent,
     AuthorComponent,
     DurationComponent,

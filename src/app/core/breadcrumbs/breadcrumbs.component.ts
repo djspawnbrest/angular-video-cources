@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadCrumb } from './breadcrumbs.model';
 import { AuthService } from '../../auth/services';
@@ -13,16 +13,12 @@ export class BreadcrumbsComponent implements OnInit {
  breadcrumbs: BreadCrumb[];
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              public cd: ChangeDetectorRef,
-              private authService: AuthService) {
-      this.cd.detach();
-  }
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.router.events.subscribe( event => {
       if (event.constructor.name === 'NavigationEnd') {
         this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-        this.cd.detectChanges();
       }
     });
   }

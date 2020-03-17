@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CoursesDataService, EventService } from '../services';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CoursesDataService } from '../services';
 import { CourseItem } from '../models/course-item';
 
 @Component({
@@ -12,22 +12,14 @@ export class EditCourseListItemComponent implements OnInit {
   @Input() model = new CourseItem(0, '', '', '');
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private cd: ChangeDetectorRef,
-    private eventService: EventService,
-    private courseDataService: CoursesDataService
-    ) {}
+    private courseDataService: CoursesDataService,
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.model = this.courseDataService.get(+params.id);
       this.route.routeConfig.data.breadcrumb = this.model.title;
-      this.eventService.broadcast('refreshBreadcrumbs');
-      this.cd.detectChanges();
-   });
+    });
   }
-  onSubmit() {
-    this.courseDataService.update(this.model);
-    this.router.navigate(['/courses/list']);
-  }
+
 }
