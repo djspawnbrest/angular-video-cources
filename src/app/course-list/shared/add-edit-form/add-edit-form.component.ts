@@ -23,7 +23,7 @@ export class AddEditFormComponent implements OnInit {
     } else {
       this.courseDataService.add(this.model);
     }
-    this.router.navigate(['courses']);
+    this.router.navigate(['/courses']);
   }
 
 }

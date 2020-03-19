@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadCrumb } from './breadcrumbs.model';
 import { AuthService } from '../../auth/services';
+import { EventService } from '../../course-list/services/index';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -10,17 +11,30 @@ import { AuthService } from '../../auth/services';
 })
 
 export class BreadcrumbsComponent implements OnInit {
- breadcrumbs: BreadCrumb[];
+  breadcrumbs: BreadCrumb[];
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              private authService: AuthService) { }
+              public cd: ChangeDetectorRef,
+              private eventService: EventService,
+              private authService: AuthService
+              ) {
+                this.cd.detach();
+              }
 
   ngOnInit() {
-    this.router.events.subscribe( event => {
+    const self = this;
+    self.router.events.subscribe( event => {
       if (event.constructor.name === 'NavigationEnd') {
-        this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+        self.breadcrumbs = self.buildBreadCrumb(self.activatedRoute.root);
+        self.cd.detectChanges();
       }
     });
+
+    self.eventService.on('refreshBreadcrumbs', () => {
+      self.breadcrumbs = self.buildBreadCrumb(self.activatedRoute.root);
+      self.cd.detectChanges();
+    });
+
   }
 
   isAuthenticated() {
@@ -39,7 +53,7 @@ export class BreadcrumbsComponent implements OnInit {
       const breadcrumb = {
           label,
           url: nextUrl,
-          exact: true
+          isLink: true
       };
 
       let newBreadcrumbs;
@@ -51,7 +65,7 @@ export class BreadcrumbsComponent implements OnInit {
       if (route.firstChild) {
           return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
       }
-      newBreadcrumbs[newBreadcrumbs.length - 1].exact = false;
+      newBreadcrumbs[newBreadcrumbs.length - 1].isLink = false;
 
       return newBreadcrumbs;
   }

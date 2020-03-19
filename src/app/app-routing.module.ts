@@ -5,6 +5,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AddCourseListItemComponent } from './course-list/add-course-list-item/add-course-list-item.component';
 import { EditCourseListItemComponent } from './course-list/edit-course-list-item/edit-course-list-item.component';
 import { Page404Component } from './shared/page404/page404.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -14,25 +15,36 @@ const routes: Routes = [
     },
     {
         path: 'courses',
-        component: CourseListComponent,
         data: {
             breadcrumb: 'Courses'
         },
-        // canActivate: [AuthGuard]
-    },
-    {
-        path: 'courses/new',
-        component: AddCourseListItemComponent,
-        data: {
-        breadcrumb: 'Add'
-        }
-    },
-    {
-        path: 'courses/:id',
-        component: EditCourseListItemComponent,
-        data: {
-        breadcrumb: 'Edit',
-        }
+        children: [
+            {
+                path: '',
+                component: CourseListComponent,
+                pathMatch: 'full',
+                redirectTo: '',
+                data: {
+                    breadcrumb: 'List'
+                }
+            },
+            {
+                path: 'new',
+                component: AddCourseListItemComponent,
+                data: {
+                breadcrumb: 'Add'
+                },
+                canActivate: [AuthGuard]
+            },
+            {
+                path: ':id',
+                component: EditCourseListItemComponent,
+                data: {
+                    breadcrumb: 'Edit',
+                },
+                canActivate: [AuthGuard]
+            }
+        ]
     },
     {
         path: 'login',
@@ -42,7 +54,11 @@ const routes: Routes = [
         component: LoginComponent,
     },
     // otherwise redirect to home
-    { path: '**', component: Page404Component, data: {breadcrumb: '404'} }
+    {
+        path: '**',
+        component: Page404Component,
+        data: {breadcrumb: '404'}
+    }
 ];
 
 @NgModule({
