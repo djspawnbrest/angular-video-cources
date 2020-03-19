@@ -4,52 +4,45 @@ import { CourseListComponent } from './course-list/course-list/course-list.compo
 import { LoginComponent } from './auth/login/login.component';
 import { AddCourseListItemComponent } from './course-list/add-course-list-item/add-course-list-item.component';
 import { EditCourseListItemComponent } from './course-list/edit-course-list-item/edit-course-list-item.component';
+import { Page404Component } from './shared/page404/page404.component';
 
 const routes: Routes = [
-  {
-      path: 'courses',
-      data: {
-          breadcrumb: 'Courses'
-      },
-      children: [
-        {
-            path: '',
-            pathMatch: 'full',
-            redirectTo: 'list'
+    {
+        path: '',
+        redirectTo: 'courses',
+        pathMatch: 'full'
+    },
+    {
+        path: 'courses',
+        component: CourseListComponent,
+        data: {
+            breadcrumb: 'Courses'
         },
-        {
-            path: 'list',
-            component: CourseListComponent,
-            data: {
-                breadcrumb: 'List'
-            },
-        },
-        {
-            path: 'add',
-            component: AddCourseListItemComponent,
-            data: {
-                breadcrumb: 'Add'
-            }
-        },
-        {
-            path: 'edit/:id',
-            component: EditCourseListItemComponent,
-            data: {
-                breadcrumb: 'Edit',
-            }
+        // canActivate: [AuthGuard]
+    },
+    {
+        path: 'courses/new',
+        component: AddCourseListItemComponent,
+        data: {
+        breadcrumb: 'Add'
         }
-      ]
-      // canActivate: [AuthGuard]
-  },
-  {
-      path: 'login',
-      data: {
-          breadcrumb: 'Login'
-      },
-      component: LoginComponent,
-  },
-  // otherwise redirect to home
-  { path: '**', redirectTo: 'courses/list' }
+    },
+    {
+        path: 'courses/:id',
+        component: EditCourseListItemComponent,
+        data: {
+        breadcrumb: 'Edit',
+        }
+    },
+    {
+        path: 'login',
+        data: {
+            breadcrumb: 'Login'
+        },
+        component: LoginComponent,
+    },
+    // otherwise redirect to home
+    { path: '**', component: Page404Component, data: {breadcrumb: '404'} }
 ];
 
 @NgModule({
