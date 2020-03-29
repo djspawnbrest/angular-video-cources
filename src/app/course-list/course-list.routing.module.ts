@@ -1,11 +1,12 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { CourseListComponent } from './course-list/course-list.component';
 import { AddCourseListItemComponent } from './add-course-list-item/add-course-list-item.component';
 import { EditCourseListItemComponent } from './edit-course-list-item/edit-course-list-item.component';
 import { EditCourseListItemResolver } from './edit-course-list-item/edit-course-list-item.resolver';
 
-export const courseRoutes: Routes = [
+const routes: Routes = [
     {
         path: '',
         component: CourseListComponent,
@@ -33,6 +34,10 @@ export const courseRoutes: Routes = [
         },
         canActivate: [AuthGuard]
     }
-];
+  ];
 
-
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+})
+export class CourseListRoutingModule { }

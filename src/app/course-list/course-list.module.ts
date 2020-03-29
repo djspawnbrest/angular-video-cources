@@ -12,6 +12,7 @@ import { AddCourseListItemComponent } from './add-course-list-item/add-course-li
 import { RouterModule } from '@angular/router';
 import { AddEditFormComponent, AuthorComponent, DurationComponent, DateComponent } from './shared';
 import { EditCourseListItemComponent } from './edit-course-list-item/edit-course-list-item.component';
+import { CourseListRoutingModule } from './course-list.routing.module';
 
 @NgModule({
   providers: [
@@ -36,7 +37,8 @@ import { EditCourseListItemComponent } from './edit-course-list-item/edit-course
     CommonModule,
     FormsModule,
     FontAwesomeModule,
-    RouterModule
+    RouterModule,
+    CourseListRoutingModule
   ]
 })
 export class CourseListModule { }
