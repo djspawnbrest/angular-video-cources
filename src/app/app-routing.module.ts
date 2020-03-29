@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CourseListComponent } from './course-list/course-list/course-list.component';
 import { LoginComponent } from './auth/login/login.component';
-import { AddCourseListItemComponent } from './course-list/add-course-list-item/add-course-list-item.component';
-import { EditCourseListItemComponent } from './course-list/edit-course-list-item/edit-course-list-item.component';
 import { Page404Component } from './shared/page404/page404.component';
-import { AuthGuard } from './shared/guards/auth.guard';
+import { courseRoutes } from './course-list/course.routes';
+import { EditCourseListItemResolver } from './course-list/edit-course-list-item/edit-course-list-item.resolver';
 
 const routes: Routes = [
     {
@@ -19,31 +17,7 @@ const routes: Routes = [
             breadcrumb: 'Courses'
         },
         children: [
-            {
-                path: '',
-                component: CourseListComponent,
-                pathMatch: 'full',
-                redirectTo: '',
-                data: {
-                    breadcrumb: 'List'
-                }
-            },
-            {
-                path: 'new',
-                component: AddCourseListItemComponent,
-                data: {
-                breadcrumb: 'Add'
-                },
-                canActivate: [AuthGuard]
-            },
-            {
-                path: ':id',
-                component: EditCourseListItemComponent,
-                data: {
-                    breadcrumb: 'Edit',
-                },
-                canActivate: [AuthGuard]
-            }
+            ...courseRoutes
         ]
     },
     {
@@ -51,7 +25,7 @@ const routes: Routes = [
         data: {
             breadcrumb: 'Login'
         },
-        component: LoginComponent,
+        component: LoginComponent
     },
     // otherwise redirect to home
     {

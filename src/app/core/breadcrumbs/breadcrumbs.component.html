@@ -1,10 +1,8 @@
-<ol *ngIf="isAuthenticated()" class="breadcrumb font-weight-bold bg-white border-0">
-    <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item">
-        <a *ngIf="breadcrumb.isLink" [routerLink]="[breadcrumb.url]">
-            {{ breadcrumb.label }}
-        </a>
-        <span *ngIf="!breadcrumb.isLink">
-            {{ breadcrumb.label }}
-        </span>
-    </li>
-</ol>
+<li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item">
+    <a *ngIf="breadcrumb.isLink" [routerLink]="[breadcrumb.url]">
+        {{ breadcrumb.label }}
+    </a>
+    <span *ngIf="!breadcrumb.isLink">
+        {{ breadcrumb.label }}
+    </span>
+</li>

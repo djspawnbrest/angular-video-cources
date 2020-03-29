@@ -1,8 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadCrumb } from './breadcrumbs.model';
-import { AuthService } from '../../auth/services';
-import { EventService } from '../../course-list/services/index';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -14,31 +12,18 @@ export class BreadcrumbsComponent implements OnInit {
   breadcrumbs: BreadCrumb[];
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              public cd: ChangeDetectorRef,
-              private eventService: EventService,
-              private authService: AuthService
+              public cd: ChangeDetectorRef
               ) {
                 this.cd.detach();
               }
 
   ngOnInit() {
-    const self = this;
-    self.router.events.subscribe( event => {
+    this.router.events.subscribe( event => {
       if (event.constructor.name === 'NavigationEnd') {
-        self.breadcrumbs = self.buildBreadCrumb(self.activatedRoute.root);
-        self.cd.detectChanges();
+        this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+        this.cd.detectChanges();
       }
     });
-
-    self.eventService.on('refreshBreadcrumbs', () => {
-      self.breadcrumbs = self.buildBreadCrumb(self.activatedRoute.root);
-      self.cd.detectChanges();
-    });
-
-  }
-
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
   }
 
   buildBreadCrumb(
