@@ -14,13 +14,13 @@
         </ul>
         <ul *ngIf="isAuthenticated()" class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a id="user-login" class="nav-link" href="./">
+                <a id="user-login" class="nav-link" href="">
                     <fa-icon [icon]="faUser" class="m-1"></fa-icon>
                      {{ getUserInfo() }}
                 </a>
             </li>
             <li class="nav-item">
-                <a id="logOff" class="nav-link" (click)="logOff()" href="">
+                <a id="logOff" class="nav-link" (click)="logOff()" href="" [routerLink]="['/login']">
                     <fa-icon [icon]="faSignOutAlt" class="m-1"></fa-icon>
                     Log off
                 </a>

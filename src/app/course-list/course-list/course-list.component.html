@@ -1,7 +1,7 @@
 <div class="container pt-3">
     <app-search (find)=onFind($event)></app-search>
     <div class="d-flex justify-content-end mb-3">
-        <button id="add" type="button" class="btn btn-primary my-2 my-sm-0" [routerLink]="['/courses/add']"><fa-icon [icon]="faPlus"></fa-icon> Add course</button>
+        <button id="add" type="button" class="btn btn-primary my-2 my-sm-0" [routerLink]="['/courses/new']"><fa-icon [icon]="faPlus"></fa-icon> Add course</button>
     </div>
     <div class="list-group">
         <div class="message alert alert-info text-center" *ngIf="courseListsItems.length === 0">NO DATA, FEEL FREE TO ADD NEW COURSE</div>
