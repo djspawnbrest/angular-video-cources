@@ -3,7 +3,7 @@ import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { CourseItem } from '../models/course-item';
 import { CoursesDataService } from '../services/index';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class EditCourseListItemResolver implements Resolve<any> {
     @Input() model = new CourseItem(0, '', '', '');
     constructor(
