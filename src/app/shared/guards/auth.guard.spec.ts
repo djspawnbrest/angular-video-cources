@@ -1,16 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-
 import { AuthGuard } from './auth.guard';
 
+class MockRouter {
+  navigate(path) {}
+}
+
 describe('AuthGuard', () => {
-  let guard: AuthGuard;
+  describe('canActivate', () => {
+    let authGuard: AuthGuard;
+    let authService;
+    let router;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    guard = TestBed.inject(AuthGuard);
-  });
+    it('should return true for a logged in user', () => {
+      authService = { isAuthenticated: () => true };
+      router = new MockRouter();
+      authGuard = new AuthGuard(authService, router);
 
-  it('should be created', () => {
-    expect(guard).toBeTruthy();
+      expect(authGuard.canActivate()).toEqual(true);
+    });
   });
 });

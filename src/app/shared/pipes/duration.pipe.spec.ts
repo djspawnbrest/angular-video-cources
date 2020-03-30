@@ -9,10 +9,11 @@ describe('DurationPipe', () => {
       declarations: [ DurationPipe ]
     })
     .compileComponents();
+
+    pipe = new DurationPipe();
   });
 
   it('create an instance', () => {
-    pipe = new DurationPipe();
     expect(pipe).toBeTruthy();
   });
 
