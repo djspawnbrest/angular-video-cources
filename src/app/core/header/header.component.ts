@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     const userInfo = this.authService.getUserInfo();
     this.authService.logout();
     console.log(`User "${userInfo}" logoff.`);
-    // this.router.navigate(['/login']);
+    this.router.navigate(['login']);
   }
 
   getUserInfo(): string {

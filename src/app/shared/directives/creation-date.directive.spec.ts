@@ -1,64 +1,94 @@
-import { Component, DebugElement } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed, inject } from '@angular/core/testing';
 
-import { CreationDateDirective } from './creation-date.directive';
+import { CoursesDataService } from '../../course-list/services';
 import { CourseItem } from '../../course-list/models/course-item';
-import { ICourseItem } from '../../course-list/models/course-item.model';
 
-@Component({
-  template: `<a href="#" [appCreationDate]="courseItems[0]"></a>
-            <a href="#" [appCreationDate]="courseItems[1]"></a>
-            <a href="#" [appCreationDate]="courseItems[2]"></a>`
-})
-
-class TestHostComponent {
-  courseItems: ICourseItem[];
-
-  constructor() {
-    const currDate = new Date();
-    const cDate = currDate.getTime().toString();
-    const oldCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() - 15).getTime().toString();
-    const futureCourseDate = new Date(currDate.getFullYear(), currDate.getMonth(),  currDate.getDate() + 3).getTime().toString();
-    this.courseItems = [
-      new CourseItem(1, 'title', 'Spawn', 'description', 30, cDate),
-      new CourseItem(1, 'title', 'Spawn', 'description', 30, oldCourseDate),
-      new CourseItem(1, 'title', 'Spawn', 'description', 30, futureCourseDate)
-    ];
-  }
-}
-
-describe('CreationDateDirective', () => {
-  let hostComponent: TestHostComponent ;
-  let fixture: ComponentFixture<TestHostComponent>;
-  let des: DebugElement[];
-
+describe('CoursesDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ CreationDateDirective ],
-      declarations: [ CreationDateDirective, TestHostComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = fixture.componentInstance;
-    fixture.detectChanges();
-
-    des = fixture.debugElement.queryAll(By.directive(CreationDateDirective));
-    expect(des.length).toBe(3);
+      providers: [ CoursesDataService ]
+    });
   });
 
+  it('should be created', inject([CoursesDataService], (service: CoursesDataService) => {
+    expect(service).toBeTruthy();
+    expect(service.getAll().length).toEqual(3);
+  }));
 
-  it('should highlight rgba(0, 165, 114, 0.5) when course is fresh', () => {
-    expect(des[0].nativeElement.style.borderColor).toBe('rgba(0, 165, 114, 0.5)');
+  describe('get', () => {
+    it('should return course when exist', inject([CoursesDataService], (service: CoursesDataService) => {
+      const firstCourse = service.get(1);
+      const secondCourse = service.get(2);
+      const thirdCourse = service.get(3);
+
+      expect(firstCourse).toBeTruthy();
+      expect(secondCourse).toBeTruthy();
+      expect(thirdCourse).toBeTruthy();
+    }));
+    it('should return undefiened when not exist', inject([CoursesDataService], (service: CoursesDataService) => {
+      const course = service.get(4);
+
+      expect(course).toBeUndefined();
+    }));
   });
 
-  it('should not highlight when course is old', () => {
-    expect(des[1].nativeElement.style.borderColor).not.toBe('rgba(87, 160, 211, 0.5)');
-    expect(des[1].nativeElement.style.borderColor).not.toBe('rgba(0, 165, 114, 0.5)');
+  describe('add', () => {
+    it('should be added', inject([CoursesDataService], (service: CoursesDataService) => {
+      const addedCourseId = 4;
+      const course = new CourseItem(0, 'title', 'author', 'description');
+
+      service.add(course);
+
+      const addedCourse = service.get(addedCourseId);
+      expect(addedCourse).toEqual(course);
+    }));
+
+    it('should not be added when course id exist', inject([CoursesDataService], (service: CoursesDataService) => {
+      const addedCourseId = 3;
+      const course = new CourseItem(addedCourseId, 'title', 'author', 'description');
+
+      service.add(course);
+
+      const addedCourse = service.get(addedCourseId);
+      expect(addedCourse).not.toBe(course);
+    }));
   });
 
-  it('should highlight gba(87, 160, 211, 0.5) when course is upcomming', () => {
-    expect(des[2].nativeElement.style.borderColor).toBe('rgba(87, 160, 211, 0.5)');
+  describe('update', () => {
+    it('should be updated', inject([CoursesDataService], (service: CoursesDataService) => {
+      const updatedCourseId = 3;
+      const updatedCourse = service.get(updatedCourseId);
+
+      service.update(updatedCourse);
+
+      expect(service.get(updatedCourseId)).toEqual(updatedCourse);
+    }));
+
+    it('should not be updated when course not exist', inject([CoursesDataService], (service: CoursesDataService) => {
+      const updatedCourseId = 4;
+      const updatedCourse = new CourseItem(updatedCourseId, 'title', 'author', 'description');
+
+      service.update(updatedCourse);
+
+      expect(service.get(updatedCourseId)).toBeUndefined();
+    }));
+  });
+
+  describe('remove', () => {
+    it('should be removed', inject([CoursesDataService], (service: CoursesDataService) => {
+      const removedCourseId = 3;
+
+      service.remove(removedCourseId);
+
+      expect(service.get(removedCourseId)).toBeUndefined();
+    }));
+
+    it('should not be removed when course not exist', inject([CoursesDataService], (service: CoursesDataService) => {
+      const removedCourseId = 4;
+
+      service.remove(removedCourseId);
+
+      expect(service.get(removedCourseId)).toBeUndefined();
+    }));
   });
 });

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { FindPipe } from '../../shared/pipes/find.pipe';
