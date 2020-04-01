@@ -1,10 +1,11 @@
+import { Authors } from './authors.model';
 
 export interface ICourseItem {
     id: number;
-    title: string;
-    author: string;
-    creationDate: string;
-    duration: number;
+    name: string;
+    authors: Authors[];
+    date: string;
+    length: number;
     description: string;
-    topRated: boolean;
+    isTopRated: boolean;
 }

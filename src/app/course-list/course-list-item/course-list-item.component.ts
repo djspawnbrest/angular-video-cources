@@ -28,4 +28,10 @@ export class CourseListItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  authorsToStringComma(authors) {
+    return authors.map( (res) => {
+      return `${res.name} ${res.lastName}`;
+    }).join(', ');
+  }
+
 }

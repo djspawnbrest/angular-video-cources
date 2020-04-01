@@ -60,16 +60,16 @@ describe('CourseListItemComponent', () => {
     expect(courseElements.length).toBe(2);
     const firstCourseElement = courseElements[0];
     const secondCourseElement = courseElements[1];
-    const firstCourseDate =  new Date(firstCourseItem.creationDate);
+    const firstCourseDate =  new Date(firstCourseItem.date);
     const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' });
     const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(firstCourseDate);
 
     const deleteButton = firstCourseElement.query(By.css('.delete'));
     expect(deleteButton).toBeTruthy();
-    expect(firstCourseElement.query(By.css('.title')).nativeElement.textContent).toBe(` ${firstCourseItem.title.toUpperCase()} `);
+    expect(firstCourseElement.query(By.css('.title')).nativeElement.textContent).toBe(` ${firstCourseItem.name.toUpperCase()} `);
     expect(firstCourseElement.query(By.css('.description')).nativeElement.textContent).toBe(firstCourseItem.description);
-    expect(firstCourseElement.query(By.css('.author')).nativeElement.textContent).toBe(` Author: ${firstCourseItem.author} `);
-    expect(firstCourseElement.query(By.css('.duration')).nativeElement.textContent).toBe(`  ${firstCourseItem.duration}min `);
+    expect(firstCourseElement.query(By.css('.author')).nativeElement.textContent).toBe(` Author: ${firstCourseItem.authors} `);
+    expect(firstCourseElement.query(By.css('.duration')).nativeElement.textContent).toBe(`  ${firstCourseItem.length}min `);
     expect(firstCourseElement.query(By.css('.date')).nativeElement.textContent).toBe(` ${da} ${mo} ${ye} `);
     expect(firstCourseElement.classes.rated).toBeTruthy();
 

@@ -4,10 +4,10 @@
         <input type="number" class="form-control" #duration
         required
         (change)="onChange(duration.value)"
-        [(ngModel)]="model.duration" name="duration"
+        [(ngModel)]="model.length" name="duration"
         #name="ngModel">
     </div>
     <div class="col col-sm-2 pb-2 ml-2">
-        {{model.duration | duration}}
+        {{model.length | duration}}
     </div>
 </div>

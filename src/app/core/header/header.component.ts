@@ -1,35 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services';
+import { IUser } from '../../auth/models/user.model';
+import { IName } from 'src/app/auth/models/name.model';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly faUser = faUser;
   readonly faSignOutAlt = faSignOutAlt;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  private getUserInfoSubscription: Subscription;
+  private authSubscription: Subscription;
+  userInfo: Observable<IUser>;
+  firstLast: string;
+  isAuth = false;
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+  constructor(private router: Router, private authService: AuthService) {
+    this.authService.getUserInfo().subscribe( (user: IUser) => {
+      this.firstLast = `${user.name.firstName} ${user.name.lastName}`;
+    });
+    this.authSubscription = this.authService.isAuthenticated().subscribe((isAuth) => this.isAuth = isAuth);
   }
 
   logOff(): void {
-    const userInfo = this.authService.getUserInfo();
     this.authService.logout();
-    console.log(`User "${userInfo}" logoff.`);
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
   }
 
-  getUserInfo(): string {
-    return this.authService.getUserInfo();
+  ngOnInit() {
   }
 
-  ngOnInit(): void {
+  ngOnDestroy() {
+    this.getUserInfoSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
   }
 
 }

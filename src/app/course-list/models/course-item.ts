@@ -1,20 +1,20 @@
-import {ICourseItem} from './course-item.model';
+import { ICourseItem } from './course-item.model';
+import { Authors } from './authors.model';
 
-// TODO: generate id and set creationDate in condtructor
 export class CourseItem implements ICourseItem {
-    duration: number;
-    creationDate: string;
+    length: number;
+    date: string;
 
     constructor(
         public id: number,
-        public title: string,
-        public author: string,
+        public name: string,
+        public authors: Authors[],
         public description: string,
-        duration?: number,
-        creationDate?: string,
-        public topRated: boolean = false
+        length?: number,
+        date?: string,
+        public isTopRated: boolean = false
         ) {
-        this.duration = duration;
-        this.creationDate = creationDate;
+        this.length = length;
+        this.date = date;
     }
 }
