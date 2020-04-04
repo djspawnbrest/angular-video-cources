@@ -11,6 +11,6 @@ export class AppComponent {
   title = 'angular-video-cources';
 
   isAuthenticated() {
-    return this.authService.isAuthenticated();
+    return this.authService.getToken();
   }
 }

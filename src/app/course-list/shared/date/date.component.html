@@ -3,7 +3,9 @@
         <label for="date">Date</label>
         <input type="date" class="form-control input-sm" id="creationDate" #date
             required
-            [(ngModel)]="model.date" name="creationDate"
+            [ngModel]="getDate()"
+            (ngModelChange)="setDate($event)"
+            name="creationDate"
             #name="ngModel">
     </div>
 </div>

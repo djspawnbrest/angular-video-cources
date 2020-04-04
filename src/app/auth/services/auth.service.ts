@@ -1,10 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subscription, of } from 'rxjs';
-import { IUser } from '../models/user.model';
-import { User } from '../models/user';
-import { Name } from '../models/name';
-import { map } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 
 const BASE_URL = 'http://localhost:3004/auth';
 
@@ -12,27 +9,39 @@ const BASE_URL = 'http://localhost:3004/auth';
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  private loginSubscription: Subscription;
   constructor(private http: HttpClient) {
   }
+
+  // tslint:disable-next-line:variable-name
+  private _loggedIn$: Subject<boolean> = new Subject();
+  get loggedIn$() {
+    return this._loggedIn$.asObservable();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _userInfo$: Subject<string> = new Subject();
+  get userInfo$() {
+    return this._userInfo$.asObservable();
+  }
+
   login(userLogin: string, pass: string): Observable<any> {
-    const s = this.http.post<any>(`${BASE_URL}/login`, {login: userLogin, password: pass}, {
+    return this.http.post<any>(`${BASE_URL}/login`, {login: userLogin, password: pass}, {
       headers: {
       'content-type': 'application/json',
       }
-    });
-    this.loginSubscription = s.subscribe( (data) => {
+    }).pipe(switchMap((data) => {
       localStorage.setItem('token', data.token);
-    });
-    return s;
+      return of(data);
+    }));
   }
 
   logout(): void {
-      localStorage.removeItem('user-login');
+      localStorage.removeItem('isAuth');
       localStorage.removeItem('token');
+      this._loggedIn$.next(false);
   }
 
-  isAuthenticated(): Observable<boolean> {
+  isAuthenticated() {
     const token = this.getToken();
     if (token) {
       return this.http.get<boolean>(`${BASE_URL}`, {
@@ -40,17 +49,17 @@ export class AuthService implements OnDestroy {
           'content-type': 'application/json',
           Authorization: token
         }
-      });
+      }).pipe(tap(res => this._loggedIn$.next(res)));
     } else {
       return of(false);
     }
   }
 
-  getUserInfo(): Observable<IUser> {
-    return this.http.post<any>(`${BASE_URL}/userinfo`, {token: this.getToken()}).pipe(map( (res) => {
-      const data = res;
-      const name = new Name (data.name.first, data.name.last);
-      return new User(data.id, data.fakeToken, name, data.login, data.password);
+  getUserInfo(): Observable<any> {
+    return this.http.post<any>(`${BASE_URL}/userinfo`, {token: this.getToken()})
+    .pipe(switchMap( (info) => {
+      this._userInfo$.next(`${info.name.first} ${info.name.last}`);
+      return of(info);
     }));
   }
 
@@ -59,6 +68,5 @@ export class AuthService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.loginSubscription.unsubscribe();
   }
 }

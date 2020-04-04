@@ -4,7 +4,7 @@ import { AuthService } from '../../auth/services';
 import { IUser } from '../../auth/models/user.model';
 import { IName } from 'src/app/auth/models/name.model';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, SubscriptionLike } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -15,18 +15,21 @@ import { map } from 'rxjs/operators';
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly faUser = faUser;
   readonly faSignOutAlt = faSignOutAlt;
+  private authSub: Subscription;
+  private infoSub: Subscription;
 
-  private getUserInfoSubscription: Subscription;
-  private authSubscription: Subscription;
-  userInfo: Observable<IUser>;
-  firstLast: string;
+  userInfo: string;
   isAuth = false;
 
   constructor(private router: Router, private authService: AuthService) {
-    this.authService.getUserInfo().subscribe( (user: IUser) => {
-      this.firstLast = `${user.name.firstName} ${user.name.lastName}`;
+    this.authSub = this.authService.loggedIn$.subscribe(
+      res => {
+        this.isAuth = res;
     });
-    this.authSubscription = this.authService.isAuthenticated().subscribe((isAuth) => this.isAuth = isAuth);
+    this.infoSub = this.authService.userInfo$.subscribe(
+      info => {
+        this.userInfo = info;
+    });
   }
 
   logOff(): void {
@@ -35,11 +38,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.authService.getToken()) {
+      this.authService.getUserInfo().toPromise();
+    }
   }
 
   ngOnDestroy() {
-    this.getUserInfoSubscription.unsubscribe();
-    this.authSubscription.unsubscribe();
+    this.authSub.unsubscribe();
+    this.infoSub.unsubscribe();
   }
 
 }

@@ -3,6 +3,8 @@
     <input type="text" class="form-control" id="author"
             placeholder="Name"
             required
-            [(ngModel)]="model.authors" name="author"
+            [ngModel]="getUsersNames()"
+            (ngModelChange)="updateAuthorsModel($event)"
+            name="author"
             #name="ngModel">
 </div>

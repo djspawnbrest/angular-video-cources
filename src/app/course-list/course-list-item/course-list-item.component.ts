@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CourseItem } from '../models/course-item';
 import { faPen, faTrash, faClock, faCalendar, faStar, faHourglass } from '@fortawesome/free-solid-svg-icons';
+import { ICourseItem } from '../models/course-item.model';
 
 @Component({
   selector: 'app-course-list-item',
@@ -16,11 +17,11 @@ export class CourseListItemComponent implements OnInit {
   readonly faStar = faStar;
   readonly faHourglass = faHourglass;
   @Input() courseListItem: CourseItem;
-  @Output() delete = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<ICourseItem>();
   @Output() edit = new EventEmitter<number>();
 
   deleteCourse() {
-    this.delete.emit(this.courseListItem.id);
+    this.delete.emit(this.courseListItem);
   }
 
   constructor() { }

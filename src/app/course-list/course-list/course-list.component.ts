@@ -2,11 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { ICourseItem } from '../models/course-item.model';
-import { FindPipe } from '../../shared/pipes/find.pipe';
 import { CoursesDataService } from './../services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-course-list',
@@ -18,12 +16,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   readonly faPlus = faPlus;
   courseListsItems: CourseItem [];
   private size = 5;
-  private removeSubscription: Subscription;
-  private getWithParamsSubscription: Subscription;
   findValue = '';
+  dialogTitle: string;
 
   constructor(
-    private findPipe: FindPipe,
     private coursesDataService: CoursesDataService,
     public dialog: MatDialog
     ) {
@@ -35,16 +31,14 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.init();
   }
 
-  onDelete(id: number) {
-    const self = this;
+  onDelete(course: ICourseItem) {
     const dialogConfig = new MatDialogConfig();
-    const item = this.coursesDataService.get(id);
-    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete?`}; // ${item.title}
+    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete "${course.name}"?`};
     const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.removeSubscription = this.coursesDataService.remove(id).subscribe( () => {
-          self.init();
+        this.coursesDataService.remove(course.id).subscribe( () => {
+          this.init();
         });
       }
     });
@@ -70,9 +64,5 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // tslint:disable-next-line:no-unused-expression
-    this.removeSubscription && this.removeSubscription.unsubscribe();
-    // tslint:disable-next-line:no-unused-expression
-    this.getWithParamsSubscription && this.getWithParamsSubscription.unsubscribe();
   }
 }

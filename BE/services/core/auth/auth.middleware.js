@@ -28,16 +28,7 @@ module.exports = (server) => {
 		if(!matchedUser) {
 			res.status(401).send('Unauthorized');
 		} else {
-			res.json(matchedUser/*{
-				id: matchedUser.id,
-				token: matchedUser.fakeToken,
-				name: {
-					firstName: matchedUser.name.first,
-					lastName: matchedUser.name.last
-				},
-				login: matchedUser.login,
-				password: matchedUser.password
-			}*/);
+			res.json(matchedUser);
 		}
 	});
 
