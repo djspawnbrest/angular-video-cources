@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { Page404Component } from './page404/page404.component';
 import { ErrorHandlerInterceptor } from './interceptor/error-handler.interceptor';
+import { LoadingService } from './services';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ErrorHandlerInterceptor } from './interceptor/error-handler.interceptor
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
       multi: true,
-    }
+    },
+    LoadingService
   ]
 })
 export class SharedModule { }

@@ -17,8 +17,8 @@ export class CoursesDataService {
     this.headers.set('Authorization', this.authService.getToken());
   }
 
-  public getWithParams(textFragment: string, count: string = ''): Observable<ICourseItem[]> {
-    return this.http.get<ICourseItem[]>(`${BASE_URL}`, {params: {textFragment, count}});
+  public getWithParams(textFragment: string): Observable<ICourseItem[]> {
+    return this.http.get<ICourseItem[]>(`${BASE_URL}`, {params: {textFragment}});
   }
 
   getAll(): Observable<ICourseItem[]> {

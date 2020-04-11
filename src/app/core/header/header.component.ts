@@ -1,11 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services';
-import { IUser } from '../../auth/models/user.model';
-import { IName } from 'src/app/auth/models/name.model';
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Observable, Subscription, SubscriptionLike } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
