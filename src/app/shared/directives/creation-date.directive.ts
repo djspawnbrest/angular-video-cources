@@ -15,7 +15,7 @@ export class CreationDateDirective {
     const currTime = currDate.getTime();
     const freshTime = new Date(currDate.getFullYear(), currDate.getMonth(), (currDate.getDate() - 14) ).getTime();
 
-    const courseTime = new Date(courseItem.creationDate).getTime();
+    const courseTime = new Date(courseItem.date).getTime();
 
     if (courseTime <= currTime && courseTime >= freshTime) {
       color = 'rgba(0, 165, 114, 0.5)';

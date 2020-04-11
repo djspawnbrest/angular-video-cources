@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ICourseItem } from '../../models/course-item.model';
 
 @Component({
   selector: 'app-duration',
@@ -6,8 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./duration.component.css']
 })
 export class DurationComponent implements OnInit {
-  @Input() model;
-  duration = '';
+  @Input() model: ICourseItem;
+  length = '';
 
   constructor() { }
 
@@ -15,7 +16,7 @@ export class DurationComponent implements OnInit {
   }
 
   onChange(value: string) {
-    this.duration = value;
+    this.length = value;
   }
 
 }

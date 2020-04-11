@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
-import { FindPipe } from '../../shared/pipes/find.pipe';
+import { ICourseItem } from '../models/course-item.model';
 import { CoursesDataService } from './../services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
@@ -12,12 +12,14 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
   styleUrls: ['./course-list.component.css'],
   entryComponents: [ConfirmDialogComponent]
 })
-export class CourseListComponent implements OnInit {
+export class CourseListComponent implements OnInit, OnDestroy {
   readonly faPlus = faPlus;
   courseListsItems: CourseItem [];
+  private size = 5;
+  findValue = '';
+  dialogTitle: string;
 
   constructor(
-    private findPipe: FindPipe,
     private coursesDataService: CoursesDataService,
     public dialog: MatDialog
     ) {
@@ -25,24 +27,32 @@ export class CourseListComponent implements OnInit {
   }
 
   onFind(findValue: string) {
-    this.courseListsItems = this.findPipe.transform(this.coursesDataService.getAll(), findValue);
+    this.findValue = findValue;
+    this.init();
   }
 
-  onDelete(id: number) {
+  onDelete(course: ICourseItem) {
     const dialogConfig = new MatDialogConfig();
-    const item = this.coursesDataService.get(id);
-    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete ${item.title}?`};
+    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete "${course.name}"?`};
     const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.coursesDataService.remove(id);
-        this.courseListsItems = this.coursesDataService.getAll();
+        this.coursesDataService.remove(course.id).subscribe( () => {
+          this.init();
+        });
       }
     });
   }
 
   loadMoreCourses() {
-    console.log('Load more courses');
+    this.size += 5;
+    this.init();
+  }
+
+  init() {
+    this.coursesDataService.getWithParams(this.findValue, this.size.toString()).subscribe((res: ICourseItem[]) => {
+      this.courseListsItems = res;
+    });
   }
 
   trackByFn(index, item) {
@@ -50,6 +60,9 @@ export class CourseListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.courseListsItems = this.coursesDataService.getAll();
+    this.init();
+  }
+
+  ngOnDestroy() {
   }
 }

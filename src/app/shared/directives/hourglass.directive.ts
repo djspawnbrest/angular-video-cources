@@ -12,7 +12,8 @@ export class HourglassDirective {
   ) { }
 
   @Input('appHourglass') set appHourglass(courseItem: ICourseItem) {
-    const duration = courseItem.duration;
+    this.viewContainer.clear();
+    const duration = courseItem.length;
     if (duration > 90) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else if (duration <= 90) {

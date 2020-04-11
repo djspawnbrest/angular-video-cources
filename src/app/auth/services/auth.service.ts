@@ -1,48 +1,72 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, Subject } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 
-@Injectable()
-export class AuthService {
+const BASE_URL = 'http://localhost:3004/auth';
 
-  constructor() { }
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService implements OnDestroy {
+  constructor(private http: HttpClient) {
+  }
 
-  login(userLogin: string): void {
-    localStorage.setItem('user-login', userLogin);
-    localStorage.setItem('token', this.generateToken());
+  // tslint:disable-next-line:variable-name
+  private _loggedIn$: Subject<boolean> = new Subject();
+  get loggedIn$() {
+    return this._loggedIn$.asObservable();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _userInfo$: Subject<string> = new Subject();
+  get userInfo$() {
+    return this._userInfo$.asObservable();
+  }
+
+  login(userLogin: string, pass: string): Observable<any> {
+    return this.http.post<any>(`${BASE_URL}/login`, {login: userLogin, password: pass}, {
+      headers: {
+      'content-type': 'application/json',
+      }
+    }).pipe(switchMap((data) => {
+      localStorage.setItem('token', data.token);
+      return of(data);
+    }));
   }
 
   logout(): void {
-      localStorage.removeItem('user-login');
+      localStorage.removeItem('isAuth');
       localStorage.removeItem('token');
+      this._loggedIn$.next(false);
   }
 
-  isAuthenticated(): boolean {
-    if (localStorage.getItem('user-login') && localStorage.getItem('token')) {
-      return true;
+  isAuthenticated() {
+    const token = this.getToken();
+    if (token) {
+      return this.http.get<boolean>(`${BASE_URL}`, {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: token
+        }
+      }).pipe(tap(res => this._loggedIn$.next(res)));
     } else {
-      return false;
+      return of(false);
     }
   }
 
-  getUserInfo(): string {
-    return localStorage.getItem('user-login');
+  getUserInfo(): Observable<any> {
+    return this.http.post<any>(`${BASE_URL}/userinfo`, {token: this.getToken()})
+    .pipe(switchMap( (info) => {
+      this._userInfo$.next(`${info.name.first} ${info.name.last}`);
+      return of(info);
+    }));
   }
 
-  private generateToken(): string {
-    const stringArray = [
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-      'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-      'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B' , 'C', 'D',
-      'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-      'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-      'Y', 'Z', '!', '?'
-    ];
+  getToken(): string {
+    return localStorage.getItem('token');
+  }
 
-    let result = '';
-    for (let i = 1; i < 15; i++) {
-      const rndNum = Math.ceil(Math.random() * stringArray.length) - 1;
-      result = result + stringArray[rndNum];
-    }
-    return result;
+  ngOnDestroy() {
   }
 }

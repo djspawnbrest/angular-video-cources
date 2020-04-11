@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseItem } from '../models/course-item';
+import { Authors } from '../models/authors.model';
 
 @Component({
   selector: 'app-add-course-list-item',
@@ -7,7 +8,8 @@ import { CourseItem } from '../models/course-item';
   styleUrls: ['./add-course-list-item.component.css']
 })
 export class AddCourseListItemComponent implements OnInit {
-  model = new CourseItem(0, '', '', '');
+  aut = new Authors (0, 'Alex', 'Spawn');
+  model: CourseItem = new CourseItem(0, '', [this.aut], '', 0, '');
   constructor() {}
 
   ngOnInit() {

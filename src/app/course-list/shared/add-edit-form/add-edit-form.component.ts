@@ -1,16 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CoursesDataService } from '../../services';
+import { ICourseItem } from '../../models/course-item.model';
 
 @Component({
   selector: 'app-add-edit-form',
   templateUrl: './add-edit-form.component.html',
   styleUrls: ['./add-edit-form.component.css']
 })
-export class AddEditFormComponent implements OnInit {
-  @Input() model;
+export class AddEditFormComponent implements OnInit, OnDestroy {
+  @Input() model: ICourseItem;
   constructor(
-    private courseDataService: CoursesDataService,
+    private coursesDataService: CoursesDataService,
     private router: Router
   ) { }
 
@@ -18,12 +19,18 @@ export class AddEditFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.model.id !== 0) {
-      this.courseDataService.update(this.model);
+    if (this.model.id !== 0 ) {
+      this.coursesDataService.update(this.model).subscribe( () => {
+        this.router.navigate(['/courses']);
+      });
     } else {
-      this.courseDataService.add(this.model);
+      this.coursesDataService.add(this.model).subscribe( () => {
+        this.router.navigate(['/courses']);
+      });
     }
-    this.router.navigate(['/courses']);
+  }
+
+  ngOnDestroy() {
   }
 
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ICourseItem } from '../../models/course-item.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-date',
@@ -6,10 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./date.component.css']
 })
 export class DateComponent implements OnInit {
-  @Input() model;
-  constructor() { }
+  @Input() model: ICourseItem;
+  constructor(private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+  }
+
+  getDate() {
+    return this.datePipe.transform(this.model.date, 'yyyy-MM-dd');
+  }
+
+  setDate(date: any) {
+    this.model.date = new Date(date).toISOString();
   }
 
 }
