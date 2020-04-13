@@ -9,15 +9,14 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent implements OnInit, OnDestroy {
-  loading = true;
+  loading = false;
   private loadingSubscription: Subscription;
 
   constructor(private loadingService: LoadingService) { }
 
   ngOnInit() {
-    const self = this;
     this.loadingSubscription = this.loadingService.loading().pipe(debounceTime(500)).subscribe((loading) => {
-      self.loading = loading;
+      this.loading = loading;
     });
   }
 

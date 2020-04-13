@@ -3,7 +3,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { ICourseItem } from '../models/course-item.model';
 import { CoursesDataService } from './../services';
-import { LoadingService } from '../../shared/services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Subscription, Subject } from 'rxjs';
@@ -28,8 +27,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   constructor(
     private coursesDataService: CoursesDataService,
-    public dialog: MatDialog,
-    private loadingService: LoadingService
+    public dialog: MatDialog
     ) {
     this.courseListsItems = [];
     this.findSubscription = this.find.asObservable().pipe(skip(3)).pipe(debounceTime(500)).subscribe((value) => {
@@ -57,12 +55,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadingService.start();
     this.coursesDataService.getWithParams(this.findValue).subscribe((res: ICourseItem[]) => {
       this.courseListsItems = res;
       this.size = this.DEFAULT_SIZE;
       this.isLoadMore = this.size < this.courseListsItems.length;
-      this.loadingService.stop();
     });
   }
 

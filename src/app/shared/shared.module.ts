@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { Page404Component } from './page404/page404.component';
 import { ErrorHandlerInterceptor } from './interceptor/error-handler.interceptor';
+import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { LoadingService } from './services';
 
 
@@ -19,6 +20,11 @@ import { LoadingService } from './services';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
     LoadingService
