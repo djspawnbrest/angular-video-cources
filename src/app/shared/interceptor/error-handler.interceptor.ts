@@ -23,6 +23,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             timeOut: 5000
           });
         }
+
+        if (typeof error.error === 'string') {
+          this.toastr.error(error.error, 'ERROR', {
+            timeOut: 5000
+          });
+        }
         return throwError(error);
        })
     );

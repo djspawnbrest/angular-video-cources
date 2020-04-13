@@ -3,8 +3,11 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { ICourseItem } from '../models/course-item.model';
 import { CoursesDataService } from './../services';
+import { LoadingService } from '../../shared/services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { Subscription, Subject } from 'rxjs';
+import { skip, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-course-list',
@@ -13,22 +16,26 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
   entryComponents: [ConfirmDialogComponent]
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  readonly faPlus = faPlus;
   courseListsItems: CourseItem [];
-  private size = 5;
   findValue = '';
+  find = new Subject<string>();
+  size: number;
+  isLoadMore = false;
   dialogTitle: string;
+  readonly faPlus = faPlus;
+  private DEFAULT_SIZE = 5;
+  private findSubscription: Subscription;
 
   constructor(
     private coursesDataService: CoursesDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loadingService: LoadingService
     ) {
     this.courseListsItems = [];
-  }
-
-  onFind(findValue: string) {
-    this.findValue = findValue;
-    this.init();
+    this.findSubscription = this.find.asObservable().pipe(skip(3)).pipe(debounceTime(500)).subscribe((value) => {
+      this.findValue = value;
+      this.init();
+    });
   }
 
   onDelete(course: ICourseItem) {
@@ -46,12 +53,16 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   loadMoreCourses() {
     this.size += 5;
-    this.init();
+    this.isLoadMore = this.size < this.courseListsItems.length;
   }
 
   init() {
-    this.coursesDataService.getWithParams(this.findValue, this.size.toString()).subscribe((res: ICourseItem[]) => {
+    this.loadingService.start();
+    this.coursesDataService.getWithParams(this.findValue).subscribe((res: ICourseItem[]) => {
       this.courseListsItems = res;
+      this.size = this.DEFAULT_SIZE;
+      this.isLoadMore = this.size < this.courseListsItems.length;
+      this.loadingService.stop();
     });
   }
 
@@ -64,5 +75,6 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.findSubscription.unsubscribe();
   }
 }
