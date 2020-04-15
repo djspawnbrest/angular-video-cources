@@ -32,18 +32,5 @@ module.exports = (server) => {
 		}
 	});
 
-	router.get('/auth', (req, res, next) => {
-		let users = server.db.getState().users,
-			matchedUser = users.find((user) => {
-				return user.fakeToken === req.header('Authorization');
-			});
-
-		if(!matchedUser) {
-			res.json(false);
-		} else {
-			res.json(true);
-		}
-	});
-
 	return router;
 };
