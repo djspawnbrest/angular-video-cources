@@ -3,6 +3,7 @@ import { ActionReducerMap } from '@ngrx/store';
 import { State } from './auth.state';
 
 export const initialState: State = {
+  isSuccess: false,
   loggedIn: false,
   user: null,
 };
@@ -12,6 +13,7 @@ export function reducer(state = initialState, action: AuthActions): State {
     case AuthActionTypes.CheckIsLoggedRes: {
         return {
             ...state,
+            isSuccess: true,
             loggedIn: action.payload.isLogged,
             user: action.payload.user
         }

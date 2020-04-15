@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Effect, Actions, ofType, EffectNotification, OnRunEffects } from '@ngrx/effects';
-import { tap, map, exhaustMap, catchError, takeUntil, switchMap } from 'rxjs/operators';
+import { tap, map, exhaustMap, catchError, takeUntil, switchMap, mergeMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 import { AuthService } from '../services';
@@ -25,7 +25,7 @@ export class OnInitEffects implements OnRunEffects {
   @Effect()
   checkIsLogged$ = this.actions$.pipe(
     ofType(AuthActionTypes.CheckIsLogged),
-    switchMap(_ => this.authService.getUserInfo().pipe(map(user => user))),
+    mergeMap(_ => this.authService.getUserInfo().pipe(map(user => user))),
     map( res => {
       let logged = false;
       if (res !== null) {

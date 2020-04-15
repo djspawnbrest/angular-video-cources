@@ -1,27 +1,38 @@
 import { Injectable, Input } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { CoursesDataService } from '../services/index';
-import { Observable } from 'rxjs';
+import { Router, Resolve, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { ICourseItem } from '../models/course-item.model';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import { Store, select } from '@ngrx/store';
+import { CourseState } from '../store/course-list.state';
+import * as courseListSelector from '../store/course-list.selectors';
+import { CourseItem } from '../models/course-item';
 
 @Injectable()
 export class EditCourseListItemResolver implements Resolve<any> {
-    @Input() model: Observable<ICourseItem>;
-    handleError: any;
+    model: ICourseItem;
     constructor(
-        private courseDataService: CoursesDataService,
-        private router: Router
+        private store: Store<CourseState>,
+        private router: Router,
         ) {}
     resolve(route: ActivatedRouteSnapshot) {
-        this.model = this.courseDataService.get(+route.params.id);
-        this.model.subscribe(
+        this.store.pipe(
+            select(courseListSelector.selectCourse(+route.params.id))
+        )
+        .subscribe(
             (res: ICourseItem) => {
-                route.routeConfig.data.breadcrumb = res.name;
-            },
-            (err: HttpErrorResponse) => {
-                if (err.status === 404 ) {
+                if (!res) {
                     this.router.navigate(['**']);
+                } else {
+                    route.routeConfig.data.breadcrumb = res.name;
+                    this.model = new CourseItem(
+                        res.id,
+                        res.name,
+                        res.authors,
+                        res.description,
+                        res.length,
+                        res.date,
+                        res.isTopRated
+                    );
                 }
             }
         );

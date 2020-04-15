@@ -2,11 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { CourseItem } from '../models/course-item';
 import { ICourseItem } from '../models/course-item.model';
-import { CoursesDataService } from './../services';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, Observable } from 'rxjs';
 import { skip, debounceTime } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import * as courseListSelectors from '../store/course-list.selectors';
+import * as courseListActions from '../store/course-list.actions';
+import { CourseState } from '../store/course-list.state';
 
 @Component({
   selector: 'app-course-list',
@@ -15,7 +18,8 @@ import { skip, debounceTime } from 'rxjs/operators';
   entryComponents: [ConfirmDialogComponent]
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courseListsItems: CourseItem [];
+  courseListsItems$: Observable<CourseItem[]>;
+  courseCount$: Observable<number>;
   findValue = '';
   find = new Subject<string>();
   size: number;
@@ -26,10 +30,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private findSubscription: Subscription;
 
   constructor(
-    private coursesDataService: CoursesDataService,
+    private courseStore: Store<CourseState>,
     public dialog: MatDialog
     ) {
-    this.courseListsItems = [];
     this.findSubscription = this.find.asObservable().pipe(skip(3)).pipe(debounceTime(500)).subscribe((value) => {
       this.findValue = value;
       this.init();
@@ -42,24 +45,18 @@ export class CourseListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.coursesDataService.remove(course.id).subscribe( () => {
-          this.init();
-        });
+        this.courseStore.dispatch(new courseListActions.RemoveCourse(course.id));
       }
     });
   }
 
   loadMoreCourses() {
     this.size += 5;
-    this.isLoadMore = this.size < this.courseListsItems.length;
   }
 
   init() {
-    this.coursesDataService.getWithParams(this.findValue).subscribe((res: ICourseItem[]) => {
-      this.courseListsItems = res;
-      this.size = this.DEFAULT_SIZE;
-      this.isLoadMore = this.size < this.courseListsItems.length;
-    });
+    this.courseStore.dispatch(new courseListActions.Load({textFragment: this.findValue}));
+    this.size = this.DEFAULT_SIZE;
   }
 
   trackByFn(index, item) {
@@ -68,6 +65,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.init();
+    this.courseListsItems$ = this.courseStore.pipe(select(courseListSelectors.selectAllCourses));
+    this.courseCount$ = this.courseStore.pipe(select(courseListSelectors.coursesCount));
   }
 
   ngOnDestroy() {

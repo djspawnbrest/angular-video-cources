@@ -11,36 +11,28 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers } from './store';
 import { reducers, IState } from './store/auth.reducers';
 import { AuthEffects, OnInitEffects } from './store/auth.effects';
-import { StartAppInit, FinishAppInit, CheckIsLoggedRes, CheckIsLogged } from './store/auth.actions';
-import { map } from 'rxjs/operators';
+import { StartAppInit, FinishAppInit, CheckIsLogged } from './store/auth.actions';
+import { Load } from '../course-list/store/course-list.actions';
+import { filter } from 'rxjs/operators';
 
-// export function initApplication(store: Store<IState>) {
-//   return () => new Promise(resolve => {
-//       store.dispatch(new StartAppInit());
-//       store.dispatch(new CheckIsLogged());
-//       store.select( (state: any) => state).pipe().subscribe( (res) => {
-//         store.dispatch(new FinishAppInit());
-//         resolve(true);
-//       })
-//   })
-// }
-
-export function initApplication(store: Store<IState>, authService: AuthService) {
+export function initApplication(store: Store<IState>) {
   return () => new Promise(resolve => {
       store.dispatch(new StartAppInit());
-      // store.dispatch(new CheckIsLoggedRes({isLogged: true, user: null}));
       store.dispatch(new CheckIsLogged());
-      authService.getUserInfo().pipe(
-        map(res => {
-          if(res){
-            return store.dispatch(new CheckIsLoggedRes({ isLogged: true, user: res }));
-          } else {
-            return store.dispatch(new CheckIsLoggedRes({isLogged: false, user: null}));
-          };
+      store.select( (state: any) => state.auth.isSuccess)
+      .pipe(
+        filter (v => !! v)
+      )
+      .subscribe( () => {
+        store.dispatch(new Load({textFragment: ''}));
+        store.select( (state: any) => state.courses.ids.length)
+        .pipe(
+          filter (r => !! r)
+        )
+        .subscribe( () => {
+          store.dispatch(new FinishAppInit());
+          resolve(true);
         })
-      ).subscribe( () => {
-        store.dispatch(new FinishAppInit());
-        resolve(true);
       })
   })
 }
