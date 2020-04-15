@@ -1,6 +1,6 @@
 <app-header></app-header>
 <main class="content bg-light vh-100">
-  <app-breadcrumbs *ngIf="isAuthenticated()" class="breadcrumb font-weight-bold bg-white border-0"></app-breadcrumbs>
+  <app-breadcrumbs *ngIf="isAuth" class="breadcrumb font-weight-bold bg-white border-0"></app-breadcrumbs>
   <router-outlet></router-outlet>
   <app-footer></app-footer>
 </main>
