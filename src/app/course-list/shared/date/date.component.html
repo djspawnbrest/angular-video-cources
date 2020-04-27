@@ -1,9 +1,10 @@
-<div class="form-group row mb-3">
-    <div class="col-sm-3">
+<div class="form-group row">
+    <div class="col col-sm-3">
         <label for="date">Date</label>
-        <input class="form-control input-sm" #date
+        <input class="form-control input-sm" [class.ng-invalid]="parseError" #date
         value="{{value}}"
         (keyup)="onKey(date.value)">
+        <div *ngIf="touched && date.value.length == 0" class="error-msg">Date is required.</div>
+        <div *ngIf="parseError && !mached" class="error-msg">Date format should be mm/dd/yyyy</div>
     </div>
 </div>
-<div *ngIf="parseError">Date format should be mm/dd/yyyy</div>

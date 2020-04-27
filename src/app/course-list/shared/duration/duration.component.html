@@ -4,9 +4,10 @@
         <input class="form-control" [class.ng-invalid]="parseError" #duration
         (keyup)="onKey(duration.value)"
         value="{{value}}">
+        <div *ngIf="touched && duration.value.length == 0" class="error-msg">Date is required.</div>
+        <div *ngIf="parseError && !mached" class="error-msg">Duration should be number</div>
     </div>
-    <div class="col col-sm-2 pb-2 ml-2" *ngIf="!parseError">
+    <div class="col col-sm-2 pb-2 ml-2" *ngIf="mached">
         {{value | duration}}
     </div>
 </div>
-<div *ngIf="parseError">Duration should be number</div>

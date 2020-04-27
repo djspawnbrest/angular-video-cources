@@ -1,6 +1,10 @@
 import { AuthActions, AuthActionTypes } from './auth.actions';
 import { ActionReducerMap } from '@ngrx/store';
 import { State } from './auth.state';
+import { CourseState } from 'src/app/course-list/store/course-list.state';
+import { AuthorState } from 'src/app/course-list/store/author.state';
+import * as coursesReducers from '../../course-list/store/course-list.reducers';
+import * as authorsReducers from '../../course-list/store/author.reducers';
 
 export const initialState: State = {
   isSuccess: false,
@@ -47,10 +51,14 @@ export function reducer(state = initialState, action: AuthActions): State {
 
 export interface IState {
     auth: State;
+    courses: CourseState;
+    authors: AuthorState;
 };
 
 export const reducers: ActionReducerMap<IState> = {
-    auth: reducer
+    auth: reducer,
+    courses: coursesReducers.reducer,
+    authors: authorsReducers.reducer
 };
 
 export const getLoggedIn = (state: State) => state.loggedIn;

@@ -24,17 +24,17 @@
     </div>
   </div>
   <app-date formControlName="date"></app-date>
-  <div *ngIf="course.controls.date.errors" class="error-msg">
+  <!-- <div *ngIf="course.controls.date.errors" class="error-msg">
       <div *ngIf="course.controls.date.errors.required;">Date is required.</div>
-  </div>
+  </div> -->
   <app-duration formControlName="length"></app-duration>
-  <div *ngIf="course.controls.length.errors" class="error-msg">
-      <div *ngIf="course.controls.legth.errors.required;">Duration is required.</div>
-  </div>
+  <!-- <div *ngIf="course.controls.length.errors" class="error-msg">
+      <div *ngIf="course.controls.length.errors.required;">Duration is required.</div>
+  </div> -->
   <app-author formControlName="authors"></app-author>
-  <div *ngIf="course.controls.authors.errors" class="error-msg">
+  <!-- <div *ngIf="course.controls.authors.errors" class="error-msg">
       <div *ngIf="course.controls.authors.errors.required;">Authors is required.</div>
-  </div>
+  </div> -->
   <button type="submit" class="btn btn-primary btn-success my-2" [disabled]="course.invalid">Save</button>
   <button type="button" class="btn btn-primary btn-cancel my-2 m-3" [routerLink]="['/courses']">Cancel</button>
 </form>

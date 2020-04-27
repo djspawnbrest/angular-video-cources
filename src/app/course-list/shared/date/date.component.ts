@@ -1,4 +1,4 @@
-import { Component, forwardRef, ViewChild, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, forwardRef, ViewChild, ElementRef, HostListener, Renderer2, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 
@@ -16,13 +16,15 @@ import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, Validator, Abst
     multi: true
   }]
 })
-export class DateComponent implements ControlValueAccessor, Validator {
+export class DateComponent implements ControlValueAccessor, Validator, AfterViewInit {
   @ViewChild('date') dateInput: ElementRef;
 
   onChange;
   onTouched;
   private _value: string;
   parseError = false;
+  touched = false;
+  mached = false;
   regexp = /^(1[0-2]|0?[1-9])\/(3[01]|[12][0-9]|0?[1-9])\/(?:[0-9]{4})?[0-9]{4}$/;
 
   get value() {
@@ -36,6 +38,8 @@ export class DateComponent implements ControlValueAccessor, Validator {
   }
 
   @HostListener('click') click() {
+    this.parseError = true;
+    this.touched = true;
     if (this.onTouched) {
       this.onTouched();
     }
@@ -64,13 +68,31 @@ export class DateComponent implements ControlValueAccessor, Validator {
   onKey(value: string) {
     const m = value.match(this.regexp);
     if (m) {
+      this.mached = true;
       this._value = new Date(value).toISOString();
       this.onChange(this._value);
       this.parseError = false;
       this.changeState(false);
     } else {
+      this.mached = false;
       this.parseError = true;
+      this._value = undefined;
+      this.onChange(undefined);
       this.changeState(true);
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this._value) {
+      const val = this.datePipe.transform(this._value, 'MM/dd/yyyy');
+      const m = val.match(this.regexp);
+      if (m) {
+        this.mached = true;
+        this.changeState(false);
+      } else {
+        this.mached = false;
+        this.changeState(true);
+      }
     }
   }
 
@@ -84,16 +106,5 @@ export class DateComponent implements ControlValueAccessor, Validator {
     this.renderer.removeClass(this.dateInput.nativeElement, removeClass);
     this.renderer.addClass(this.dateInput.nativeElement, addClass);
   }
-
-  // ngOnInit(): void {
-  // }
-
-  // getDate() {
-  //   return this.datePipe.transform(this.model.date, 'yyyy-MM-dd');
-  // }
-
-  // setDate(date: any) {
-  //   this.model.date = new Date(date).toISOString();
-  // }
 
 }

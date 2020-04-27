@@ -1,4 +1,4 @@
-import { Component, forwardRef, ViewChild, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, forwardRef, ViewChild, ElementRef, HostListener, Renderer2, AfterViewInit, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
@@ -17,12 +17,14 @@ import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, Validator, Abst
   }
   ]
 })
-export class DurationComponent implements ControlValueAccessor, Validator {
+export class DurationComponent implements ControlValueAccessor, Validator, AfterViewInit {
   @ViewChild('duration') duratuionInput: ElementRef;
 
   onChange;
   onTouched;
   parseError = false;
+  touched = false;
+  mached = false;
   private _value: number;
   formatDuration;
 
@@ -38,6 +40,7 @@ export class DurationComponent implements ControlValueAccessor, Validator {
 
   @HostListener('click') click() {
     this.parseError = true;
+    this.touched = true;
     if (this.onTouched) {
       this.onTouched();
     }
@@ -58,13 +61,28 @@ export class DurationComponent implements ControlValueAccessor, Validator {
   onKey(value: any) {
     const n = Number(value);
     if (n) {
+      this.mached = true;
       this.parseError = false;
       this._value = n;
       this.onChange(this._value);
       this.changeState(false);
     } else {
+      this.mached = false;
       this.parseError = true;
+      this._value = undefined;
+      this.onChange(undefined);
       this.changeState(true);
+    }
+  }
+
+  ngAfterViewInit(){
+    const n = Number(this._value);
+    if (this._value) {
+      if (n) {
+        this.changeState(false);
+      } else {
+        this.changeState(true);
+      }
     }
   }
 
@@ -84,11 +102,7 @@ export class DurationComponent implements ControlValueAccessor, Validator {
           error: {
               valid: false
           },
-      };
-    }
-
-  // onChange(value: string) {
-  //   this.length = value;
-  // }
+    };
+  }
 
 }

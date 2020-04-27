@@ -24,7 +24,7 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
     const course: ICourseItem = new CourseItem(
       this.course.value.id,
       this.course.value.name,
-      [this.course.value.authors],
+      this.course.value.authors,
       this.course.value.description,
       this.course.value.length,
       this.course.value.date,
