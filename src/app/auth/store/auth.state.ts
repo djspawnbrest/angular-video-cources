@@ -4,4 +4,5 @@ export interface State {
     isSuccess: boolean;
     loggedIn: boolean;
     user: User | null;
+    errorMessage: string | null;
 }

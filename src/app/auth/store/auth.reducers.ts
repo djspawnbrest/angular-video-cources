@@ -6,6 +6,7 @@ export const initialState: State = {
   isSuccess: false,
   loggedIn: false,
   user: null,
+  errorMessage: null
 };
 
 export function reducer(state = initialState, action: AuthActions): State {
@@ -31,6 +32,13 @@ export function reducer(state = initialState, action: AuthActions): State {
       return initialState;
     }
 
+    case AuthActionTypes.LoginFailure: {
+      return {
+        ...state,
+        errorMessage: action.payload.error
+      };
+    }
+
     default: {
       return state;
     }
@@ -53,3 +61,4 @@ export const getUser = (state: State) => {
     return '';
   }
 };
+export const getErrorMessage = (state: State) => state.errorMessage;
