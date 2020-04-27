@@ -13,7 +13,7 @@ import { reducers, IState } from './store/auth.reducers';
 import { AuthEffects, OnInitEffects } from './store/auth.effects';
 import { StartAppInit, FinishAppInit, CheckIsLogged } from './store/auth.actions';
 import { Load } from '../course-list/store/course-list.actions';
-import { filter } from 'rxjs/operators';
+import { filter, tap, switchMap } from 'rxjs/operators';
 
 export function initApplication(store: Store<IState>) {
   return () => new Promise(resolve => {
@@ -21,18 +21,14 @@ export function initApplication(store: Store<IState>) {
       store.dispatch(new CheckIsLogged());
       store.select( (state: any) => state.auth.isSuccess)
       .pipe(
-        filter (v => !! v)
+        filter (v => !! v),
+        tap( () => store.dispatch(new Load({textFragment: ''})) ),
+        switchMap( () => store.select( (state: any) => state.courses.ids.length) ),
+        filter (r => !! r)
       )
       .subscribe( () => {
-        store.dispatch(new Load({textFragment: ''}));
-        store.select( (state: any) => state.courses.ids.length)
-        .pipe(
-          filter (r => !! r)
-        )
-        .subscribe( () => {
-          store.dispatch(new FinishAppInit());
-          resolve(true);
-        })
+        store.dispatch(new FinishAppInit());
+        resolve(true);
       })
   })
 }
@@ -52,7 +48,7 @@ export function initApplication(store: Store<IState>) {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
       multi: true,
-      deps: [[new Inject(Store)], [new Inject(AuthService)]]
+      deps: [[new Inject(Store)]]
    }
   ]
 })
