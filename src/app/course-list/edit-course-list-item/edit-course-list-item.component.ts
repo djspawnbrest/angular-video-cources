@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseItem } from '../models/course-item';
 import { BreadCrumb } from '../../core/breadcrumbs/breadcrumbs.model';
@@ -10,7 +10,7 @@ import { BreadCrumb } from '../../core/breadcrumbs/breadcrumbs.model';
 })
 export class EditCourseListItemComponent implements OnInit {
   breadcrumbs: BreadCrumb[];
-  @Input() model: CourseItem;
+  model: CourseItem;
   constructor(
     private route: ActivatedRoute
   ) { }

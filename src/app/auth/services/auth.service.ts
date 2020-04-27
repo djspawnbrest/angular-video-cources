@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { User, Authenticate } from '../models/user';
 
 const BASE_URL = 'http://localhost:3004/auth';
 
@@ -12,20 +13,8 @@ export class AuthService implements OnDestroy {
   constructor(private http: HttpClient) {
   }
 
-  // tslint:disable-next-line:variable-name
-  private _loggedIn$: Subject<boolean> = new Subject();
-  get loggedIn$() {
-    return this._loggedIn$.asObservable();
-  }
-
-  // tslint:disable-next-line:variable-name
-  private _userInfo$: Subject<string> = new Subject();
-  get userInfo$() {
-    return this._userInfo$.asObservable();
-  }
-
-  login(userLogin: string, pass: string): Observable<any> {
-    return this.http.post<any>(`${BASE_URL}/login`, {login: userLogin, password: pass}, {
+  login(auth: Authenticate): Observable<any> {
+    return this.http.post<any>(`${BASE_URL}/login`, {login: auth.login, password: auth.password}, {
       headers: {
       'content-type': 'application/json',
       }
@@ -35,32 +24,25 @@ export class AuthService implements OnDestroy {
     }));
   }
 
-  logout(): void {
-      localStorage.removeItem('isAuth');
-      localStorage.removeItem('token');
-      this._loggedIn$.next(false);
-  }
-
-  isAuthenticated() {
-    const token = this.getToken();
-    if (token) {
-      return this.http.get<boolean>(`${BASE_URL}`, {
-        headers: {
-          'content-type': 'application/json',
-          Authorization: token
-        }
-      }).pipe(tap(res => this._loggedIn$.next(res)));
+  getUserInfo(): Observable<User> {
+    if (this.getToken()) {
+      return this.http.post<any>(`${BASE_URL}/userinfo`, {token: this.getToken()})
+      .pipe(switchMap( (info) => {
+        const user = {
+          id: info.id,
+          token: info.fakeToken,
+          name: {
+            firstName: info.name.first,
+            lastName: info.name.last
+          },
+          login: info.login,
+          password: info.password
+        };
+        return of(user);
+      }));
     } else {
-      return of(false);
+      return of(null)
     }
-  }
-
-  getUserInfo(): Observable<any> {
-    return this.http.post<any>(`${BASE_URL}/userinfo`, {token: this.getToken()})
-    .pipe(switchMap( (info) => {
-      this._userInfo$.next(`${info.name.first} ${info.name.last}`);
-      return of(info);
-    }));
   }
 
   getToken(): string {

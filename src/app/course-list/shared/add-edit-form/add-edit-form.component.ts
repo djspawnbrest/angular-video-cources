@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { CoursesDataService } from '../../services';
+import { Store } from '@ngrx/store';
 import { ICourseItem } from '../../models/course-item.model';
+import { CourseState } from '../../store/course-list.state';
+import { AddCourse, UpdateCourse } from '../../store/course-list.actions';
 
 @Component({
   selector: 'app-add-edit-form',
@@ -11,7 +13,7 @@ import { ICourseItem } from '../../models/course-item.model';
 export class AddEditFormComponent implements OnInit, OnDestroy {
   @Input() model: ICourseItem;
   constructor(
-    private coursesDataService: CoursesDataService,
+    private store: Store<CourseState>,
     private router: Router
   ) { }
 
@@ -20,13 +22,9 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.model.id !== 0 ) {
-      this.coursesDataService.update(this.model).subscribe( () => {
-        this.router.navigate(['/courses']);
-      });
+      this.store.dispatch(new UpdateCourse(this.model));
     } else {
-      this.coursesDataService.add(this.model).subscribe( () => {
-        this.router.navigate(['/courses']);
-      });
+      this.store.dispatch(new AddCourse(this.model));
     }
   }
 

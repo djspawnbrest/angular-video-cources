@@ -10,7 +10,7 @@ export class AppComponent {
   constructor(private authService: AuthService) {}
   title = 'angular-video-cources';
 
-  isAuthenticated() {
-    return this.authService.getToken();
+  get isAuth() {
+    return localStorage.getItem('token');
   }
 }

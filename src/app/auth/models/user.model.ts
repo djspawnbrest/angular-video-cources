@@ -7,3 +7,8 @@ export interface IUser {
     login: string;
     password: string;
 }
+
+export interface IAuthenticate {
+    login: string;
+    password: string;
+}

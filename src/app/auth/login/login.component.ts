@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../services';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { IUser } from '../models/user.model';
-import { User } from '../models/user';
-import { Subscription } from 'rxjs';
+import { User, Authenticate } from '../models/user';
+import * as authReducers from '../store/auth.reducers';
+import * as authActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -11,21 +11,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private authUnsubscriber: Subscription;
   model: IUser = new User(0, '', {firstName: '', lastName: ''}, '', '');
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private authStore: Store<authReducers.IState>,) { }
 
   ngOnInit() {
   }
 
   login() {
-    this.authUnsubscriber = this.authService.login(this.model.login, this.model.password).subscribe( () => {
-      this.authService.getUserInfo().toPromise();
-      this.router.navigate(['/courses']);
-    });
+    this.authStore.dispatch(new authActions.Login(new Authenticate(this.model.login, this.model.password)));
   }
 
   ngOnDestroy() {
-    this.authUnsubscriber.unsubscribe();
   }
 }
