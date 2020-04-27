@@ -1,11 +1,9 @@
 <div class="form-group row mb-3">
     <div class="col-sm-3">
         <label for="date">Date</label>
-        <input type="date" class="form-control input-sm" id="creationDate" #date
-            required
-            [ngModel]="getDate()"
-            (ngModelChange)="setDate($event)"
-            name="creationDate"
-            #name="ngModel">
+        <input class="form-control input-sm" #date
+        value="{{value}}"
+        (keyup)="onKey(date.value)">
     </div>
 </div>
+<div *ngIf="parseError">Date format should be mm/dd/yyyy</div>

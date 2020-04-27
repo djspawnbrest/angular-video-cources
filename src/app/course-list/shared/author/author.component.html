@@ -1,10 +1,7 @@
 <div class="form-group">
     <label for="author">Author</label>
-    <input type="text" class="form-control" id="author"
-            placeholder="Name"
-            required
-            [ngModel]="getUsersNames()"
-            (ngModelChange)="updateAuthorsModel($event)"
-            name="author"
-            #name="ngModel">
+    <input type="text" class="form-control" #author
+            placeholder="Start type Name"
+            (keyup)="onKey(author.value)"
+            value="{{value}}">
 </div>

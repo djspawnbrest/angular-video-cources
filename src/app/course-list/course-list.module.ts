@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StoreModule } from '@ngrx/store';
@@ -41,11 +41,13 @@ import { CourseListEffects } from './store/course-list.effects';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
     RouterModule,
     CourseListRoutingModule,
     StoreModule.forFeature('courses', reducer),
     EffectsModule.forFeature([CourseListEffects])
-  ]
+  ],
+  exports: [CourseListComponent]
 })
 export class CourseListModule { }
