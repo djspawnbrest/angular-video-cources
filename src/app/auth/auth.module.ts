@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services';
 
 import { StoreModule, Store } from '@ngrx/store';
@@ -38,6 +38,7 @@ export function initApplication(store: Store<IState>) {
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forRoot(reducers, {metaReducers}),
     EffectsModule.forRoot([OnInitEffects, AuthEffects]),
     StoreDevtoolsModule.instrument()

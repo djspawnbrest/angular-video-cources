@@ -1,22 +1,40 @@
-<form (ngSubmit)="onSubmit()" #courseForm="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="course">
   <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" id="title"
-        required
-        [(ngModel)]="model.name" name="title"
-        #name="ngModel">
+            formControlName="name" required>
+    <div *ngIf="course.controls.name.errors" class="error-msg">
+      <div *ngIf="course.controls.name.errors.required && course.controls.name.touched; else titleErrors">Title is required.</div>
+    </div>
+    <ng-template #titleErrors>
+      <div *ngIf="course.controls.name.errors.maxlength">Title should be less then {{course.controls.name.errors.maxlength.requiredLength}} length.</div>
+      <div *ngIf="course.controls.name.errors.minlength">Title should be at least {{course.controls.name.errors.minlength.requiredLength}} length.</div>
+    </ng-template>
   </div>
   <div class="form-group">
     <label for="description">Description</label>
-    <textarea type="text" class="form-control" id="description" rows="4"
-        required
-        [(ngModel)]="model.description" name="description"
-        #name="ngModel">
+    <textarea type="text" class="form-control" id="description"
+            formControlName="description" required>
     </textarea>
+    <div *ngIf="course.controls.description.errors" class="error-msg">
+      <div *ngIf="course.controls.description.errors.required && course.controls.description.touched; else descriptionErrors">Description is required.</div>
+      <ng-template #descriptionErrors>
+        <div *ngIf="course.controls.description.errors.maxlength">Description should be less then {{course.controls.description.errors.maxlength.requiredLength}} length.</div>
+      </ng-template>
+    </div>
   </div>
-  <app-date [model]="model"></app-date>
-  <app-duration [model]="model"></app-duration>
-  <app-author [model]="model"></app-author>
-  <button type="submit" class="btn btn-primary btn-success my-2" [disabled]="!courseForm.form.valid">Save</button>
+  <app-date formControlName="date"></app-date>
+  <!-- <div *ngIf="course.controls.date.errors" class="error-msg">
+      <div *ngIf="course.controls.date.errors.required;">Date is required.</div>
+  </div> -->
+  <app-duration formControlName="length"></app-duration>
+  <!-- <div *ngIf="course.controls.length.errors" class="error-msg">
+      <div *ngIf="course.controls.length.errors.required;">Duration is required.</div>
+  </div> -->
+  <app-author formControlName="authors"></app-author>
+  <!-- <div *ngIf="course.controls.authors.errors" class="error-msg">
+      <div *ngIf="course.controls.authors.errors.required;">Authors is required.</div>
+  </div> -->
+  <button type="submit" class="btn btn-primary btn-success my-2" [disabled]="course.invalid">Save</button>
   <button type="button" class="btn btn-primary btn-cancel my-2 m-3" [routerLink]="['/courses']">Cancel</button>
 </form>

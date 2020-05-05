@@ -19,6 +19,7 @@ export class CourseListItemComponent implements OnInit {
   @Input() courseListItem: CourseItem;
   @Output() delete = new EventEmitter<ICourseItem>();
   @Output() edit = new EventEmitter<number>();
+  authors: string;
 
   deleteCourse() {
     this.delete.emit(this.courseListItem);
@@ -27,12 +28,7 @@ export class CourseListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  authorsToStringComma(authors) {
-    return authors.map( (res) => {
-      return `${res.name} ${res.lastName}`;
-    }).join(', ');
+    this.authors = this.courseListItem.authors.map((v) => `${v.name} ${v.lastName}`).join(', ');
   }
 
 }

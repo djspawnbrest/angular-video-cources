@@ -1,11 +1,16 @@
 import { AuthActions, AuthActionTypes } from './auth.actions';
 import { ActionReducerMap } from '@ngrx/store';
 import { State } from './auth.state';
+import { CourseState } from 'src/app/course-list/store/course-list.state';
+import { AuthorState } from 'src/app/course-list/store/author.state';
+import * as coursesReducers from '../../course-list/store/course-list.reducers';
+import * as authorsReducers from '../../course-list/store/author.reducers';
 
 export const initialState: State = {
   isSuccess: false,
   loggedIn: false,
   user: null,
+  errorMessage: null
 };
 
 export function reducer(state = initialState, action: AuthActions): State {
@@ -31,6 +36,13 @@ export function reducer(state = initialState, action: AuthActions): State {
       return initialState;
     }
 
+    case AuthActionTypes.LoginFailure: {
+      return {
+        ...state,
+        errorMessage: action.payload.error
+      };
+    }
+
     default: {
       return state;
     }
@@ -39,10 +51,14 @@ export function reducer(state = initialState, action: AuthActions): State {
 
 export interface IState {
     auth: State;
+    courses: CourseState;
+    authors: AuthorState;
 };
 
 export const reducers: ActionReducerMap<IState> = {
-    auth: reducer
+    auth: reducer,
+    courses: coursesReducers.reducer,
+    authors: authorsReducers.reducer
 };
 
 export const getLoggedIn = (state: State) => state.loggedIn;
@@ -53,3 +69,4 @@ export const getUser = (state: State) => {
     return '';
   }
 };
+export const getErrorMessage = (state: State) => state.errorMessage;

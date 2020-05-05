@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseItem } from '../models/course-item';
-import { Authors } from '../models/authors.model';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-course-list-item',
@@ -8,9 +7,15 @@ import { Authors } from '../models/authors.model';
   styleUrls: ['./add-course-list-item.component.css']
 })
 export class AddCourseListItemComponent implements OnInit {
-  aut = new Authors (0, 'Alex', 'Spawn');
-  model: CourseItem = new CourseItem(0, '', [this.aut], '', 0, '');
-  constructor() {}
+  course: FormGroup = this.fb.group({
+    id: 0,
+    name: [ '', [ Validators.required, Validators.maxLength(50), Validators.minLength(2) ]],
+    authors: [ [], Validators.required ],
+    date: [ '', Validators.required ],
+    length: [ '', Validators.required ],
+    description: [ '', [ Validators.required, Validators.maxLength(500)] ]
+  });
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
   }

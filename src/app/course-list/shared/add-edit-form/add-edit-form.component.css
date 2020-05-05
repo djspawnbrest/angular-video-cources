@@ -1,0 +1,9 @@
+#title.ng-valid[required], #title.ng-valid.required,
+#description.ng-valid[required], #description.ng-valid.required  {
+    border: 2px solid #42A948; /* green */
+}
+
+#title.ng-invalid.ng-touched:not(form),
+#description.ng-invalid.ng-touched:not(form)  {
+    border: 2px solid #a94442; /* red */
+}

@@ -13,3 +13,7 @@ export const getLoggedIn = createSelector(
     getAuthState,
     authReducers.getLoggedIn
 );
+export const getLoginError = createSelector(
+    getAuthState,
+    authReducers.getErrorMessage
+);

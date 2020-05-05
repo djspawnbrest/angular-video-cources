@@ -1,13 +1,13 @@
 <div class="form-row align-items-end">
     <div class="col col-sm-3">
         <label for="duration">Duration (min)</label>
-        <input type="number" class="form-control" #duration
-        required
-        (change)="onChange(duration.value)"
-        [(ngModel)]="model.length" name="duration"
-        #name="ngModel">
+        <input class="form-control" [class.ng-invalid]="parseError" #duration
+        (keyup)="onKey(duration.value)"
+        value="{{value}}">
+        <div *ngIf="touched && duration.value.length == 0" class="error-msg">Date is required.</div>
+        <div *ngIf="parseError && !mached" class="error-msg">Duration should be number</div>
     </div>
-    <div class="col col-sm-2 pb-2 ml-2">
-        {{model.length | duration}}
+    <div class="col col-sm-2 pb-2 ml-2" *ngIf="mached">
+        {{value | duration}}
     </div>
 </div>
