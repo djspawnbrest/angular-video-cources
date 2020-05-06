@@ -1,0 +1,69 @@
+{
+	"HEADER": {
+        "TITLE": "Video Course"
+	},
+	"LANGUAGES": {
+		"EN": "English",
+        "RU": "Russian",
+        "BY": "Belarusian",
+		"TITLE": "Language"
+    },
+    "LOGIN": {
+        "LOGIN": "Login",
+        "LOGOFF": "Log off",
+        "UNAME": "Username",
+        "PASS": "Password",
+        "LOGREQ": "Login is required.",
+        "PASSREQ": "Password is required.",
+        "ERROR": "Wrong username and(or) password!"
+    },
+    "SEARCH": {
+        "PLACEHOLDER": "Text to search"
+    },
+    "COURSELIST": {
+        "NODATA": "NO DATA, FEEL FREE TO ADD NEW COURSE",
+        "ADD": "Add course",
+        "LOADMORE": "LOAD MORE"
+    },
+    "COURSEITEM": {
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "AUTHORS": "Authors",
+        "DELTITLE": "Delete?",
+        "DELMESS": "Do you really want to delete '{{value}}'?",
+        "YES": "Yes",
+        "NO" : "No"
+    },
+    "ADDEDIT": {
+        "ADD": "Add course",
+        "EDIT": "Edit course",
+        "TITLE": "Title",
+        "TITLEREQ": "Title is required.",
+        "TITLELEAST": "Title should be at least {{value}} length.",
+        "TITLELESS": "Title should be less then {{value}} length.",
+        "DESCRIPTION": "Description",
+        "DESCRIPTIONREQ": "Description is required.",
+        "DESCRIPTIONLESS": "Description should be less then {{value}} length.",
+        "DATE": "Date",
+        "DATEREQ": "Date is required.",
+        "DATEFORMAT": "Date format should be mm/dd/yyyy",
+        "DURATION": "Duration (min)",
+        "DURATIONREQ": "Duration is required.",
+        "DURATIONFORMAT": "Duration should be number",
+        "DURATIONH": "{{value}}h.",
+        "DURATIONM": "{{value}}m.",
+        "AUTHORS": "Authors",
+        "AUTHORSREQ": "Authors is required.",
+        "AUTHORSSEARCH": "Type author",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+    },
+    "FOOTER": {
+        "COPYRIGHT": "Copyright © Videocourses. All rights reserved."
+    },
+    "404": {
+        "TITLE": "Oops! Something went wrong!",
+        "MESSAGE": "The page you are looking for was not found.",
+        "TOHOME": "Back to Home"
+    }
+}

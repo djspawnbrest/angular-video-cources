@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth/services';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +6,7 @@ import { AuthService } from './auth/services';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private authService: AuthService) {}
+  constructor() {}
   title = 'angular-video-cources';
 
   get isAuth() {

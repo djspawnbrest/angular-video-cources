@@ -2,5 +2,5 @@
     <div class="input-group-prepend">
         <fa-icon class="input-group-text" [icon]="faSearch" aria-hidden="true"></fa-icon>
     </div>
-    <input [(ngModel)]="findValue" (ngModelChange)="findCourse()" name="findValue" [ngModelOptions]="{standalone: true}" class="my-4 my-lg-0" type="text" placeholder="Text to search">
+    <input [(ngModel)]="findValue" (ngModelChange)="findCourse()" name="findValue" [ngModelOptions]="{standalone: true}" class="my-4 my-lg-0" type="text" placeholder="{{ 'SEARCH.PLACEHOLDER' | translate }}">
 </form>

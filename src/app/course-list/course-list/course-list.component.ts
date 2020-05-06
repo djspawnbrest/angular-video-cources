@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import * as courseListSelectors from '../store/course-list.selectors';
 import * as courseListActions from '../store/course-list.actions';
 import { CourseState } from '../store/course-list.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-course-list',
@@ -30,8 +31,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   private findSubscription: Subscription;
 
   constructor(
-    private courseStore: Store<CourseState>,
-    public dialog: MatDialog
+      private courseStore: Store<CourseState>,
+      public dialog: MatDialog,
+      public translate: TranslateService
     ) {
     this.findSubscription = this.find.asObservable().pipe(skip(3)).pipe(debounceTime(500)).subscribe((value) => {
       this.findValue = value;
@@ -41,7 +43,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   onDelete(course: ICourseItem) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = {title: 'Delete?', message: `Do you really want to delete "${course.name}"?`};
+    dialogConfig.data = {
+      title: this.translate.instant('COURSEITEM.DELTITLE'),
+      message: this.translate.instant('COURSEITEM.DELMESS', {value: course.name})
+    };
     const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -59,7 +64,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.size = this.DEFAULT_SIZE;
   }
 
-  trackByFn(index, item) {
+  trackByFn(item) {
     return item.id;
   }
 

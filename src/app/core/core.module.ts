@@ -8,6 +8,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from './loading/loading.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoadingComponent } from './loading/loading.component';
     CommonModule,
     FontAwesomeModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   exports: [
     HeaderComponent,
