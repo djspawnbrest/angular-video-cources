@@ -14,6 +14,7 @@ import { AuthEffects, OnInitEffects } from './store/auth.effects';
 import { StartAppInit, FinishAppInit, CheckIsLogged } from './store/auth.actions';
 import { Load } from '../course-list/store/course-list.actions';
 import { filter, tap, switchMap } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 export function initApplication(store: Store<IState>) {
   return () => new Promise(resolve => {
@@ -39,6 +40,7 @@ export function initApplication(store: Store<IState>) {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     StoreModule.forRoot(reducers, {metaReducers}),
     EffectsModule.forRoot([OnInitEffects, AuthEffects]),
     StoreDevtoolsModule.instrument()

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -18,6 +18,10 @@ import { CourseListRoutingModule } from './course-list.routing.module';
 import { reducer } from './store/course-list.reducers';
 import { CourseListEffects } from './store/course-list.effects';
 import { AuthorsEffects } from './store/author.effects';
+import { TranslateModule } from '@ngx-translate/core';
+import localeEn from '@angular/common/locales/en';
+import localeRu from '@angular/common/locales/ru';
+import localeBy from '@angular/common/locales/be';
 
 
 @NgModule({
@@ -48,8 +52,15 @@ import { AuthorsEffects } from './store/author.effects';
     RouterModule,
     CourseListRoutingModule,
     StoreModule.forFeature('courses', reducer),
-    EffectsModule.forFeature([CourseListEffects, AuthorsEffects])
+    EffectsModule.forFeature([CourseListEffects, AuthorsEffects]),
+    TranslateModule
   ],
   exports: [CourseListComponent, AuthorComponent]
 })
-export class CourseListModule { }
+export class CourseListModule {
+  constructor() {
+    registerLocaleData(localeEn, 'en');
+    registerLocaleData(localeRu, 'ru');
+    registerLocaleData(localeBy, 'by');
+  }
+}

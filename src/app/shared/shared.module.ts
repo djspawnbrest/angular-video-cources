@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, AsyncPipe } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { Page404Component } from './page404/page404.component';
 import { ErrorHandlerInterceptor } from './interceptor/error-handler.interceptor';
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { LoadingService } from './services';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LoadingService } from './services';
     Page404Component
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   providers: [
     {
@@ -27,7 +29,8 @@ import { LoadingService } from './services';
       useClass: LoadingInterceptor,
       multi: true,
     },
-    LoadingService
+    LoadingService,
+    AsyncPipe
   ]
 })
 export class SharedModule { }

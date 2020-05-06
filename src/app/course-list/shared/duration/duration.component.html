@@ -1,13 +1,14 @@
 <div class="form-row align-items-end">
     <div class="col col-sm-3">
-        <label for="duration">Duration (min)</label>
+        <label for="duration">{{ 'ADDEDIT.DURATION' | translate }}</label>
         <input class="form-control" [class.ng-invalid]="parseError" #duration
         (keyup)="onKey(duration.value)"
         value="{{value}}">
-        <div *ngIf="touched && duration.value.length == 0" class="error-msg">Date is required.</div>
-        <div *ngIf="parseError && !mached" class="error-msg">Duration should be number</div>
+        <div *ngIf="touched && duration.value.length == 0" class="error-msg">{{ 'ADDEDIT.DURATIONREQ' | translate }}</div>
+        <div *ngIf="parseError && !mached" class="error-msg">{{ 'ADDEDIT.DURATIONFORMAT' | translate }}</div>
     </div>
     <div class="col col-sm-2 pb-2 ml-2" *ngIf="mached">
-        {{value | duration}}
+        <span *ngIf="(value | duration).hours">{{ 'ADDEDIT.DURATIONH' | translate:{value: (value | duration).hours} }} </span>
+        <span *ngIf="(value | duration).minutes">{{ 'ADDEDIT.DURATIONM' | translate:{value: (value | duration).minutes} }}</span>
     </div>
 </div>
